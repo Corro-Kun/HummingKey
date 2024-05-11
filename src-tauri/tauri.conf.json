@@ -7,7 +7,7 @@
   },
   "package": {
     "productName": "hummingkey",
-    "version": "0.0.0"
+    "version": "0.1.0"
   },
   "tauri": {
     "allowlist": {
@@ -20,8 +20,8 @@
     "windows": [
       {
         "title": "hummingkey",
-        "width": 800,
-        "height": 600
+        "width": 1200,
+        "height": 700
       }
     ],
     "security": {
@@ -30,7 +30,7 @@
     "bundle": {
       "active": true,
       "targets": "all",
-      "identifier": "com.tauri.dev",
+      "identifier": "com.corro.dev",
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
