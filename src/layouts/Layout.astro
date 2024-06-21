@@ -1,5 +1,6 @@
 ---
 import BodyWallpaper from '../components/BodyWallpaper.astro';
+import {ViewTransitions} from "astro:transitions";
 interface Props {
 	title: string;
 }
@@ -16,17 +17,20 @@ const { title } = Astro.props;
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
+		<ViewTransitions fallback='none' />
 	</head>
 	<body>
-		<BodyWallpaper>
+		<BodyWallpaper  >
 			<slot />
 		</BodyWallpaper>
 	</body>
 </html>
 <style is:global>
 	:root {
-		--Color_Border: #0063a5;
+		--Color_Primary: #0063a5;
+		--Color_Secondary: #7c4526;
 		--Color_Text: #c1dff7;
+		--Color_Text_Hover: #f7f7f7;
 	}
 	*{
 		margin: 0;

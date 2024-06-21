@@ -1,13 +1,15 @@
 <script>
+	import {navigate} from 'astro:transitions/client';
+
     function HandleSubmit(e) {
         e.preventDefault();
-        console.log(e.target.pass.value);   
+		navigate("/home");
     }
 </script>
 
 <form class="login" on:submit={(e)=> HandleSubmit(e)} >
     <picture>
-        <img src="https://somoskudasai.com/wp-content/uploads/2022/10/portada_ia-4.jpg" alt="">
+        <img src="https://somoskudasai.com/wp-content/uploads/2022/10/portada_ia-4.jpg" alt="profile" loading="lazy" >
     </picture>
     <h2>user</h2>
     <div class="password">
@@ -26,7 +28,7 @@
 		justify-content: center;
 		align-items: center;
 		overflow: hidden;
-		border: 2px solid var(--Color_Border);
+		border: 2px solid var(--Color_Primary);
 		border-radius: 10px;
 		backdrop-filter: blur(20px);
 	}
@@ -38,12 +40,10 @@
 		justify-content: center;
 		overflow: hidden;
 		border-radius: 50%;
-        border: 2px solid var(--Color_Border);
+        border: 2px solid var(--Color_Primary);
 	}
 	.login picture img{
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
+		height: 145px;
 	}
 	.login h2{
 		margin-top: 20px;
@@ -55,7 +55,7 @@
 		position: relative;
 		width: 85%;
 		height: 32px;
-		border-bottom: 2px solid var(--Color_Border);
+		border-bottom: 2px solid var(--Color_Primary);
 	}	
 	.password label{
 		position: absolute;	
@@ -84,6 +84,6 @@
 	.password input:valid~label{
 		top: -5px;
 		font-size: .8em;
-		color: var(--Color_Border);
+		color: var(--Color_Primary);
 	}
 </style>

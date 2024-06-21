@@ -1,0 +1,46 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Profile from "../components/Profile.svelte";
+---
+
+<Layout title="home" >
+    <main>
+        <header>
+            <a href="">Crear</a>
+            <Profile />
+        </header>
+        <h2>center</h2>
+        <h2>bottom</h2>
+    </main>
+</Layout>
+
+<style>
+    main{
+        display: flex;
+        padding: 10px;
+        height: 100vh;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: column;
+        overflow: hidden;
+    }
+    header{
+        display: flex;
+        padding: 0 10px;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+    }
+    a{
+        padding: 5px 10px;
+        background-color: var(--Color_Primary);
+        color: var(--Color_Text);
+        border-radius: 3px;
+        text-decoration: none;
+        transition: all .2s;
+    }
+    a:hover{
+        background-color: var(--Color_Secondary);
+        color: var(--Color_Text_Hover);
+    }
+</style>
