@@ -1,6 +1,7 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Profile from "../components/Profile.svelte";
+import Layout from "@/layouts/Layout.astro";
+import Profile from "@/components/Profile.svelte";
+import CenterPassword from "@/components/CenterPassword.svelte";
 ---
 
 <Layout title="home" >
@@ -9,7 +10,7 @@ import Profile from "../components/Profile.svelte";
             <a href="">Crear</a>
             <Profile />
         </header>
-        <h2>center</h2>
+        <CenterPassword client:load />
         <h2>bottom</h2>
     </main>
 </Layout>
