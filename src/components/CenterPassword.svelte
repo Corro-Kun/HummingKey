@@ -25,7 +25,19 @@
     </div>
     <div class="content" >
         <div class="left" >
-
+            <div class="title-content" >
+                <h2>titulo</h2>
+            </div>
+            <div class="passwords" >
+                <div>
+                    <h3>Email</h3>
+                    <p>*********</p>
+                </div>
+                <div>
+                    <h3>Contraseña</h3>
+                    <p>*********</p>
+                </div>
+            </div>
         </div>
         <div class="right" >
             <button><Pencil /></button>
@@ -84,6 +96,7 @@
     }
     .content{
         display: flex;
+        padding: 4px 10px;
         height: 250px;
         width: 400px;
         background: transparent;
@@ -91,6 +104,27 @@
         border: 2px solid var(--Color_Primary);
         border-radius: 8px;
         overflow: hidden;
+    }
+    .title-content{
+        height: 30px;
+        width: 100%;
+    }
+    .title-content h2{
+        color: var(--Color_Text);
+    }
+    .passwords{
+        display: flex;
+        padding: 0 10px;
+        height: 140px;
+        width: 100%;
+        justify-content: center;
+        flex-direction: column;
+    }
+    .passwords h3{
+        color: var(--Color_Text);
+    }
+    .passwords p{
+        color: var(--Color_Text_Hover);
     }
     .left{
         height: 100%;
