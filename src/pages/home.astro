@@ -2,6 +2,7 @@
 import Layout from "@/layouts/Layout.astro";
 import Profile from "@/components/Profile.svelte";
 import CenterPassword from "@/components/CenterPassword.svelte";
+import MenuBottom from "@/components/MenuBottom.svelte";
 ---
 
 <Layout title="home" >
@@ -11,7 +12,7 @@ import CenterPassword from "@/components/CenterPassword.svelte";
             <Profile />
         </header>
         <CenterPassword client:load />
-        <h2>bottom</h2>
+        <MenuBottom />
     </main>
 </Layout>
 

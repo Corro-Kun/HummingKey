@@ -9,18 +9,12 @@
             <h3>Contraseñas</h3>
         </div>
         <div class="list-div" >
-            <h2>hola</h2>
-            <h2>hola</h2>
-            <h2>hola</h2>
-            <h2>hola</h2>
-            <h2>hola</h2>
-            <h2>hola</h2>
-            <h2>hola</h2>
-            <h2>hola</h2>
-            <h2>hola</h2>
-            <h2>hola</h2>
-            <h2>hola</h2>
-            <h2>hola</h2>
+            <div>
+                <h3>Password 1</h3>
+            </div>
+            <div>
+                <h3>Password 2</h3>
+            </div>
         </div>
     </div>
     <div class="content" >
@@ -93,6 +87,23 @@
     }
     .list-div::-webkit-scrollbar-track{
         background: transparent;
+    }
+    .list-div div{
+        margin-bottom: 5px;
+        padding: 2px 5px;
+        cursor: pointer;
+        transition: .2s;
+    }
+    .list-div div h3{
+        color: var(--Color_Text);
+        font-size: 21px;
+        transition: .2s;
+    }
+    .list-div div:hover{
+        background: var(--Color_Primary);
+    }
+    .list-div div:hover h3{
+        color: var(--Color_Text_Hover);
     }
     .content{
         display: flex;
