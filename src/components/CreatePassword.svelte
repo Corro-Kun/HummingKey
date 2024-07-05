@@ -1,5 +1,7 @@
 <form>
-    <h2>form</h2>
+    <div class="title" >
+        <h2>form</h2>
+    </div>
 </form>
 
 <style>
@@ -10,5 +12,9 @@
         backdrop-filter: blur(10px);
         border: 2px solid var(--Color_Primary);
         border-radius: 8px;
+    }
+    .title{
+        display: flex;
+        justify-content: center;
     }
 </style>
