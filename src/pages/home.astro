@@ -1,16 +1,13 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import Profile from "@/components/Profile.svelte";
 import CenterPassword from "@/components/CenterPassword.svelte";
 import MenuBottom from "@/components/MenuBottom.svelte";
+import Header from "@/components/Header.astro";
 ---
 
 <Layout title="home" >
     <main>
-        <header>
-            <a href="/password/new">Crear</a>
-            <Profile />
-        </header>
+        <Header button="Crear" link="/password/new" />
         <CenterPassword client:load />
         <MenuBottom />
     </main>
@@ -25,24 +22,5 @@ import MenuBottom from "@/components/MenuBottom.svelte";
         justify-content: space-between;
         flex-direction: column;
         overflow: hidden;
-    }
-    header{
-        display: flex;
-        padding: 0 10px;
-        width: 100%;
-        justify-content: space-between;
-        align-items: center;
-    }
-    a{
-        padding: 5px 10px;
-        background-color: var(--Color_Primary);
-        color: var(--Color_Text);
-        border-radius: 3px;
-        text-decoration: none;
-        transition: all .2s;
-    }
-    a:hover{
-        background-color: var(--Color_Secondary);
-        color: var(--Color_Text_Hover);
     }
 </style>

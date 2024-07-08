@@ -1,0 +1,37 @@
+---
+import Profile from "@/components/Profile.svelte";
+
+interface Props {
+	link: string;
+    button: string;
+}
+
+const {link, button} = Astro.props;
+---
+
+<header>
+    <a href={link}>{button}</a>
+    <Profile />
+</header>
+
+<style>
+    header{
+        display: flex;
+        padding: 0 10px;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+    }
+    a{
+        padding: 5px 10px;
+        background-color: var(--Color_Primary);
+        color: var(--Color_Text);
+        border-radius: 3px;
+        text-decoration: none;
+        transition: all .2s;
+    }
+    a:hover{
+        background-color: var(--Color_Secondary);
+        color: var(--Color_Text_Hover);
+    }
+</style>

@@ -1,20 +1,27 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
 import CreatePassword from "@/components/CreatePassword.svelte";
 ---
 
 <Layout title="new" >
+    <div class="header" >
+        <Header button="Volver" link="/home" />
+    </div>
     <div class="main" >
         <CreatePassword />
     </div>
 </Layout>
 
 <style>
+    .header{
+        padding: 10px;
+    }
     .main{
         display: flex;
         padding: 40px;
         width: 100%;
-        height: 100vh;
+        height: 92vh;
         background: transparent;
         align-items: center;
         justify-content: right;
