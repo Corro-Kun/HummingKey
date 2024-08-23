@@ -1,15 +1,17 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import CenterPassword from "@/components/CenterPassword.svelte";
-import MenuBottom from "@/components/MenuBottom.svelte";
-import Header from "@/components/Header.astro";
+import BarBottom from "@/components/BarBottom.astro";
+import Profile from "@/components/Profile.svelte";
 ---
 
 <Layout title="home" >
     <main>
-        <Header button="Crear" link="/password/new" />
+        <div>
+            <Profile />
+        </div>
         <CenterPassword client:load />
-        <MenuBottom />
+        <BarBottom homePage />
     </main>
 </Layout>
 
@@ -22,5 +24,10 @@ import Header from "@/components/Header.astro";
         justify-content: space-between;
         flex-direction: column;
         overflow: hidden;
+    }
+    div{
+        width: 100%;
+        display: flex;
+        justify-content: right;
     }
 </style>

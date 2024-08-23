@@ -1,27 +1,41 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import Header from "@/components/Header.astro";
+import Profile from "@/components/Profile.svelte";
 import CreatePassword from "@/components/CreatePassword.svelte";
+import BarBottom from "@/components/BarBottom.astro";
 ---
 
 <Layout title="new" >
-    <div class="header" >
-        <Header button="Volver" link="/home" />
-    </div>
-    <div class="main" >
-        <CreatePassword />
-    </div>
+    <main>
+        <div class="header">
+            <Profile />
+        </div>
+        <div class="main" >
+            <CreatePassword />
+        </div>
+        <BarBottom newPage />
+    </main>
 </Layout>
 
 <style>
-    .header{
+    main{
+        display: flex;
         padding: 10px;
+        height: 100vh;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: column;
+        overflow: hidden;
+    }
+    .header{
+        width: 100%;
+        display: flex;
+        justify-content: right;
     }
     .main{
         display: flex;
-        padding: 40px;
+        padding: 25px;
         width: 100%;
-        height: 92vh;
         background: transparent;
         align-items: center;
         justify-content: right;

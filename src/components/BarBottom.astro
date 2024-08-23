@@ -1,0 +1,80 @@
+---
+import Profile from "@/components/icons/Profile.svelte";
+import Home from "@/components/icons/Home.svelte";
+import New from "@/components/icons/New.svelte";
+import Export from "@/components/icons/Export.svelte";
+import Logout from "@/components/icons/Logout.svelte";
+
+interface Props{
+    homePage?: boolean;
+    newPage?: boolean;
+    exportPage?: boolean;
+    profilePage?: boolean;
+    logoutPage?: boolean;
+}
+
+const { homePage=false, newPage=false, exportPage=false, profilePage=false, logoutPage=false } = Astro.props;
+---
+
+<div class="main" >
+    <a href="/home" class={homePage? "active": ""} >
+        <Home />
+        {homePage && <div class="check" />}
+    </a>
+    <a href="/password/new" class={newPage? "active": ""}>
+        <New />
+        {newPage && <div class="check" />}
+    </a>
+    <a href="" class={exportPage? "active": ""}>
+        <Export />
+        {exportPage && <div class="check" />}
+    </a>
+    <a href="" class={profilePage? "active": ""}>
+        <Profile />
+        {profilePage && <div class="check" />}
+    </a>
+    <a href="/" class={logoutPage? "active": ""} >
+        <Logout />
+        {logoutPage && <div class="check" />}
+    </a>
+</div>
+
+<style>
+    .main{
+        display: flex;
+        padding: 5px;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        backdrop-filter: blur(10px);
+        border: 2px solid var(--Color_Primary);
+        border-radius: 8px;
+        overflow: hidden;
+        gap: 10px;
+    }
+    a{
+        position: relative;
+        display: flex;
+        height: 35px;
+        width: 35px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        color: var(--Color_Text);
+        transition: .3s;
+    }
+    a:hover{
+        color: var(--Color_Secondary);
+    }
+    .active{
+        color: var(--Color_Secondary);
+    }
+    .check{
+        bottom: 0;
+        height: 1px;
+        width: 1px;
+        position: absolute;
+        border: 2px solid var(--Color_Secondary);
+        border-radius: 50%;
+    }
+</style>
