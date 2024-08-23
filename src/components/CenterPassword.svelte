@@ -1,36 +1,67 @@
 <script>
     import Trash from '@/components/icons/Trash.svelte';
     import Pencil from '@/components/icons/Pencil.svelte';
+    import AccountIcons from '@/components/AccountIcons.svelte';
+    import Copy from '@/components/icons/Copy.svelte';
+    import Eye from '@/components/icons/Eye.svelte';
 </script>
 
 <div class="card" >
     <div class="list" >
         <div class="title" >
-            <h3>Contraseñas</h3>
+            <h2>Contraseñas</h2>
         </div>
         <div class="list-div" >
             <div>
-                <h3>Password 1</h3>
+                <AccountIcons icon={9} />
+                <p class="text-pass" >Cuenta de github</p>
             </div>
             <div>
-                <h3>Password 2</h3>
+                <p>-</p>
+                <AccountIcons icon={13} />
+                <p class="text-pass" >Spotify</p>
+            </div>
+            <div>
+                <AccountIcons icon={7} />
+                <p class="text-pass" >Cuenta de celular</p>
             </div>
         </div>
     </div>
     <div class="content" >
         <div class="left" >
             <div class="title-content" >
-                <h2>titulo</h2>
+                <AccountIcons icon={13} />
+                <h2>Spotify</h2>
             </div>
             <div class="passwords" >
-                <div>
-                    <h3>Email</h3>
-                    <p>*********</p>
-                </div>
-                <div>
-                    <h3>Contraseña</h3>
-                    <p>*********</p>
-                </div>
+                <div class="pass-content" >
+                    <div>
+                        <h3>Email</h3>
+                        <p>*********</p>
+                    </div>
+                    <div>
+                        <button>
+                            <Eye />
+                        </button>
+                        <button>
+                            <Copy />
+                        </button>
+                    </div>
+               </div>
+                <div class="pass-content" >
+                    <div>
+                        <h3>Contraseña</h3>
+                        <p>*********</p>
+                    </div>
+                    <div>
+                        <button>
+                            <Eye />
+                        </button>
+                        <button>
+                            <Copy />
+                        </button>
+                    </div>
+               </div>
             </div>
         </div>
         <div class="right" >
@@ -66,7 +97,7 @@
         justify-content: center;
         border-bottom: 2px solid var(--Color_Primary);
     }
-    .title h3{
+    .title h2{
         color: var(--Color_Text);
     }
     .list-div{
@@ -89,21 +120,22 @@
         background: transparent;
     }
     .list-div div{
-        margin-bottom: 5px;
+        display: flex;
+        margin-top: 5px;
         padding: 2px 5px;
         cursor: pointer;
         transition: .2s;
-    }
-    .list-div div h3{
+        align-items: center;
         color: var(--Color_Text);
-        font-size: 21px;
-        transition: .2s;
+        gap: 10px;
+        overflow: hidden;
     }
     .list-div div:hover{
-        background: var(--Color_Primary);
-    }
-    .list-div div:hover h3{
         color: var(--Color_Text_Hover);
+    }
+    .text-pass{
+        font-size: 18px;
+        transition: .2s;
     }
     .content{
         display: flex;
@@ -117,10 +149,11 @@
         overflow: hidden;
     }
     .title-content{
+        display: flex;
         height: 30px;
         width: 100%;
-    }
-    .title-content h2{
+        align-items: center;
+        gap: 10px;
         color: var(--Color_Text);
     }
     .passwords{
@@ -136,6 +169,21 @@
     }
     .passwords p{
         color: var(--Color_Text_Hover);
+    }
+    .passwords button{
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        color: var(--Color_Text);
+        transition: .2s;
+    }
+    .passwords button:hover{
+        color: var(--Color_Secondary);
+    }
+    .pass-content{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
     }
     .left{
         height: 100%;
