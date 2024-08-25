@@ -1,0 +1,21 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import Login from '@/components/Login.svelte';
+---
+
+<Layout title="Login">
+	<div class="main">
+		<Login client:load />
+	</div>
+</Layout>
+
+<style>
+	.main{
+		display: flex;
+		padding: 50px;
+		width: 100%;
+		height: 100vh;
+		justify-content: right;
+		align-items: center;
+	}
+</style>

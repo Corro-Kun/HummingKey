@@ -1,8 +1,27 @@
 <script>
+	import {onMount} from 'svelte';
 	import {navigate} from 'astro:transitions/client';
 
-    function HandleSubmit(e) {
+	let user = "";
+
+	let password = "";
+
+	onMount(async ()=>{
+		const { invoke } = await import('@tauri-apps/api');
+		user = await invoke("get_name_user");
+	});
+
+    async function HandleSubmit(e) {
         e.preventDefault();
+		const { invoke } = await import('@tauri-apps/api');
+
+		let result = await invoke("login", {password: password});
+
+		if(!result){
+			user = "No eres "+user;
+			return;
+		}
+
 		navigate("/home");
     }
 </script>
@@ -11,9 +30,9 @@
     <picture>
         <img src="https://somoskudasai.com/wp-content/uploads/2022/10/portada_ia-4.jpg" alt="profile" loading="lazy" >
     </picture>
-    <h2>user</h2>
+    <h2>{user}</h2>
     <div class="password">
-        <input id="pass" type="password" required />
+        <input bind:value={password} id="pass" type="password" required />
         <label for="pass">Contraseña</label>
     </div>
 </form>
@@ -48,7 +67,7 @@
 	.login h2{
 		margin-top: 20px;
 		margin-bottom: 14px;
-		font-size: 2em;
+		font-size: 1.8em;
 		color: var(--Color_Text);
 	}
 	.password{

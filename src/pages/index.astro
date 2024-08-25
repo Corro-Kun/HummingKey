@@ -1,21 +1,8 @@
 ---
 import Layout from '@/layouts/Layout.astro';
-import Login from '@/components/Login.svelte';
+import Verifc from '@/components/Verifc.svelte';
 ---
 
-<Layout title="Welcome to Astro.">
-	<div class="main">
-		<Login client:load />
-	</div>
+<Layout title="Welcome to HummingKey.">
+	<Verifc client:load />
 </Layout>
-
-<style>
-	.main{
-		display: flex;
-		padding: 50px;
-		width: 100%;
-		height: 100vh;
-		justify-content: right;
-		align-items: center;
-	}
-</style>
