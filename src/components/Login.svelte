@@ -32,7 +32,7 @@
     </picture>
     <h2>{user}</h2>
     <div class="password">
-        <input bind:value={password} id="pass" type="password" required />
+        <input bind:value={password} id="pass" type="password" autoComplete="off" required />
         <label for="pass">Contraseña</label>
     </div>
 </form>

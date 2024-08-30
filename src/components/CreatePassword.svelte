@@ -22,7 +22,7 @@
     </div>
     <div class="input" >
         <label for="name">Nombre de tu contraseña</label>
-        <input type="text" id="name" required >
+        <input type="text" id="name" autoComplete="off" required >
     </div>
     <div class="icon" >
         <h2>Selecciona un icono</h2>

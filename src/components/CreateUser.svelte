@@ -29,11 +29,11 @@
         <img src="https://somoskudasai.com/wp-content/uploads/2022/10/portada_ia-4.jpg" alt="profile" loading="lazy" >
     </picture>
     <div class="Inputs" >
-        <input bind:value={data.name} id="user" type="text" required>
+        <input bind:value={data.name} id="user" type="text" autoComplete="off" required>
         <label for="user">Usuario</label>
     </div>
     <div class="Inputs">
-        <input bind:value={data.password} id="pass" type="password" required />
+        <input bind:value={data.password} id="pass" type="password" autoComplete="off" required />
         <label for="pass">Contraseña</label>
     </div>
     <div class="Button" >
