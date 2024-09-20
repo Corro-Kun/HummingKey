@@ -6,6 +6,8 @@
 
 	let password = "";
 
+	let login = true;
+
 	onMount(async ()=>{
 		const { invoke } = await import('@tauri-apps/api');
 		user = await invoke("get_name_user");
@@ -18,7 +20,7 @@
 		let result = await invoke("login", {password: password});
 
 		if(!result){
-			user = "No eres "+user;
+			login = false;
 			return;
 		}
 
@@ -30,7 +32,11 @@
     <picture>
         <img src="https://somoskudasai.com/wp-content/uploads/2022/10/portada_ia-4.jpg" alt="profile" loading="lazy" >
     </picture>
-    <h2>{user}</h2>
+	{#if !login}
+		<h2>Contraseña incorrecta</h2>
+	{:else}
+    	<h2>{user}</h2>
+	{/if}
     <div class="password">
         <input bind:value={password} id="pass" type="password" autoComplete="off" required />
         <label for="pass">Contraseña</label>
