@@ -2,6 +2,7 @@
 import Layout from "@/layouts/Layout.astro";
 import Profile from "@/components/Profile.svelte";
 import CreatePassword from "@/components/CreatePassword.svelte";
+import NewPasswordVerifc from "@/components/NewPasswordVerifc.svelte";
 import BarBottom from "@/components/BarBottom.astro";
 ---
 
@@ -11,7 +12,8 @@ import BarBottom from "@/components/BarBottom.astro";
             <Profile client:load />
         </div>
         <div class="main" >
-            <CreatePassword />
+            <NewPasswordVerifc client:load />
+            <CreatePassword client:load />
         </div>
         <BarBottom newPage />
     </main>
@@ -38,6 +40,6 @@ import BarBottom from "@/components/BarBottom.astro";
         width: 100%;
         background: transparent;
         align-items: center;
-        justify-content: right;
+        justify-content: space-between;
     }
 </style>

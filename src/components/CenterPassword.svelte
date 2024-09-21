@@ -1,9 +1,19 @@
 <script>
+    import {onMount} from 'svelte';
     import Trash from '@/components/icons/Trash.svelte';
     import Pencil from '@/components/icons/Pencil.svelte';
     import AccountIcons from '@/components/AccountIcons.svelte';
     import Copy from '@/components/icons/Copy.svelte';
     import Eye from '@/components/icons/Eye.svelte';
+
+    let data = [];
+
+    let index = null;
+
+    onMount(async ()=>{
+        const { invoke } = await import('@tauri-apps/api');
+        data = await invoke("get_passwords");
+    });
 </script>
 
 <div class="card" >
@@ -12,32 +22,29 @@
             <h2>Contraseñas</h2>
         </div>
         <div class="list-div" >
-            <div>
-                <AccountIcons icon={9} />
-                <p class="text-pass" >Cuenta de github</p>
-            </div>
-            <div>
-                <p>-</p>
-                <AccountIcons icon={13} />
-                <p class="text-pass" >Spotify</p>
-            </div>
-            <div>
-                <AccountIcons icon={7} />
-                <p class="text-pass" >Cuenta de celular</p>
-            </div>
+            {#each data as item, i}
+                <div on:click={()=> index=i} >
+                    {#if index === i}
+                    <p>-</p>
+                    {/if}
+                    <AccountIcons icon={item.icon} />
+                    <p class="text-pass" >{item.name}</p>
+                </div>
+            {/each}
         </div>
     </div>
+    {#if index !== null}
     <div class="content" >
         <div class="left" >
             <div class="title-content" >
-                <AccountIcons icon={13} />
-                <h2>Spotify</h2>
+                <AccountIcons icon={data[index].icon} />
+                <h2>{data[index].name}</h2>
             </div>
             <div class="passwords" >
                 <div class="pass-content" >
                     <div>
                         <h3>Email</h3>
-                        <p>*********</p>
+                        <p>{data[index].user}</p>
                     </div>
                     <div>
                         <button>
@@ -69,6 +76,7 @@
             <button><Trash /></button> 
         </div>
     </div>
+    {/if}
 </div>
 
 <style>
@@ -184,6 +192,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        margin-bottom: 10px;
     }
     .left{
         height: 100%;

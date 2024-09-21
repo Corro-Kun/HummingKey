@@ -1,4 +1,5 @@
 <script>
+    import {request, newPassword} from '@/store/password.ts';
     import Box from '@/components/icons/account/box.svelte';
     import Book from '@/components/icons/account/books.svelte';
     import Store from '@/components/icons/account/store.svelte';
@@ -15,75 +16,97 @@
     import Netflix from '@/components/icons/account/netflix.svelte';
     import Discord from '@/components/icons/account/discord.svelte';
     import Steam from '@/components/icons/account/steam.svelte';
+
+    let data = {
+        name: "",
+        icon: 0,
+        user: "",
+        password: ""
+    }
+
+    function save(e){
+        e.preventDefault();
+        if(data.password.length > 16){
+            // trabajando en ello
+        }
+        if (data.icon === 0) {
+            data.icon = 1;
+        }
+        data.id = 0;
+        data.password_length = data.password.length;
+        newPassword.set(data);
+        request.set(true);
+    }
+
 </script>
-<form>
+<form on:submit={save} >
     <div class="title" >
         <h1>Crea tu nueva contraseña</h1>
     </div>
     <div class="input" >
         <label for="name">Nombre de tu contraseña</label>
-        <input type="text" id="name" autoComplete="off" required >
+        <input type="text" id="name" autocomplete="off" required bind:value={data.name} >
     </div>
     <div class="icon" >
         <h2>Selecciona un icono</h2>
         <div class="icons" >
-            <section>
+            <section class={data.icon === 1 ? 'active' : ''} on:click={()=> data.icon = 1} >
                 <Box />
             </section>
-            <section>
+            <section class={data.icon === 2 ? 'active' : ''} on:click={()=> data.icon = 2} >
                 <Book />
             </section>
-            <section>
+            <section class={data.icon === 3 ? 'active' : ''} on:click={()=> data.icon = 3} >
                 <Store />
             </section>
-            <section>
+            <section class={data.icon === 4 ? 'active' : ''} on:click={()=> data.icon = 4} >
                 <Work />
             </section>
-            <section>
+            <section class={data.icon === 5 ? 'active' : ''} on:click={()=> data.icon = 5} >
                 <Game />
             </section>
-            <section>
+            <section class={data.icon === 6 ? 'active' : ''} on:click={()=> data.icon = 6} >
                 <Cloudy />
             </section>
-            <section>
+            <section class={data.icon === 7 ? 'active' : ''} on:click={()=> data.icon = 7} >
                 <Google />
             </section>
-            <section>
+            <section class={data.icon === 8 ? 'active' : ''} on:click={()=> data.icon = 8} >
                 <Windows />
             </section>
-            <section>
+            <section class={data.icon === 9 ? 'active' : ''} on:click={()=> data.icon = 9} >
                 <Github />
             </section>
-            <section>
+            <section class={data.icon === 10 ? 'active' : ''} on:click={()=> data.icon = 10} >
                 <Facebook />
             </section>
-            <section>
+            <section class={data.icon === 11 ? 'active' : ''} on:click={()=> data.icon = 11} >
                 <X />
             </section>
-            <section>
+            <section class={data.icon === 12 ? 'active' : ''} on:click={()=> data.icon = 12} >
                 <Reddit />
             </section>
-            <section>
+            <section class={data.icon === 13 ? 'active' : ''} on:click={()=> data.icon = 13} >
                 <Spotify />
             </section>
-            <section>
+            <section class={data.icon === 14 ? 'active' : ''} on:click={()=> data.icon = 14} >
                 <Netflix />
             </section>
-            <section>
+            <section class={data.icon === 15 ? 'active' : ''} on:click={()=> data.icon = 15} >
                 <Discord />
             </section>
-            <section>
+            <section class={data.icon === 16 ? 'active' : ''} on:click={()=> data.icon = 16} >
                 <Steam />
             </section>
         </div>
     </div>
     <div class="input" >
         <label for="">Correo/usuario</label>
-        <input type="text" required >
+        <input type="text" required bind:value={data.user} >
     </div>
     <div class="input" >
         <label for="">Contraseña</label>
-        <input type="password" required >
+        <input type="password" required bind:value={data.password} >
     </div>
     <div class="button-save" >
         <button>Guardar</button>
@@ -158,6 +181,9 @@
         transition: .2s;
     }
     .icons section:hover{
+        background: var(--Color_Primary);
+    }
+    .active{
         background: var(--Color_Primary);
     }
     .button-save{

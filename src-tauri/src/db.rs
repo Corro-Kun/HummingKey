@@ -16,12 +16,13 @@ pub fn create_db() {
         [],
     ).unwrap();
     conn.execute(
-        "CREATE TABLE IF NOT EXISTS passwords (
+        "CREATE TABLE IF NOT EXISTS password (
             id INTEGER PRIMARY KEY,
             name TEXT NOT NULL,
             icon INTEGER NOT NULL,
             user TEXT NOT NULL,
-            password TEXT NOT NULL
+            password TEXT NOT NULL,
+            password_length INTEGER NOT NULL
         )",
         [],
     ).unwrap();

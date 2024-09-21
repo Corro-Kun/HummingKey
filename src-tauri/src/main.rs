@@ -4,12 +4,13 @@
 mod models;
 mod command;
 mod db;
+mod lib;
 
 use command::*;
 
 fn main() {
   tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![verify_db, create_user, get_name_user, login])
+    .invoke_handler(tauri::generate_handler![verify_db, create_user, get_name_user, login, create_password, get_passwords])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }
