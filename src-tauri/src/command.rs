@@ -124,3 +124,30 @@ pub fn get_passwords() -> Vec<Password>{
 
     passwords
 }
+
+#[tauri::command]
+pub fn descrypt_data(password: String, data: String) -> String{
+    let mut key = GenericArray::from([0u8; 32]);
+    let password_bytes = password.as_bytes();
+    let mut index = 0;
+
+    key = key.map(|mut x|{
+        if password_bytes.len() > index{
+            x = password_bytes[index];
+            index += 1;
+        }
+        x
+    });
+
+    let cipher = Aes256::new(&key);
+
+    let message = hex::decode(data).expect("error");
+
+    let mut decrypted = GenericArray::from([0u8; 16]);
+
+    decrypted.copy_from_slice(&message);
+
+    cipher.decrypt_block(&mut decrypted);
+
+    return String::from_utf8_lossy(&decrypted).to_string();
+}

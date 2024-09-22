@@ -5,15 +5,58 @@
     import AccountIcons from '@/components/AccountIcons.svelte';
     import Copy from '@/components/icons/Copy.svelte';
     import Eye from '@/components/icons/Eye.svelte';
+    import toast from "svelte-french-toast";
 
     let data = [];
 
     let index = null;
 
+    let confirm = false;
+
+    let option = 0;
+
+    let pw = "";
+
+    let loading = [false, false];
+
     onMount(async ()=>{
         const { invoke } = await import('@tauri-apps/api');
         data = await invoke("get_passwords");
     });
+    
+    async function descrypt(){
+        confirm = false;
+
+        const { invoke } = await import('@tauri-apps/api');
+
+        let result = await invoke("login", {password: pw});
+
+		if(!result){
+            toast.error('Contraseña incorrecta');
+            pw = "";
+            confirm = true;
+            return
+		}
+
+        if(option === 3){
+            result = await invoke("descrypt_data",{password: pw, data: data[index].password});
+            data[index].password = result.substring(data[index].password_length, 0);
+
+            loading[1] = true;
+
+            setTimeout( async ()=>{
+                data = await invoke("get_passwords");
+                loading[1] = false;
+            }, 5000);
+
+        }else if(option === 4){
+            result = await invoke("descrypt_data",{password: pw, data: data[index].password});
+            navigator.clipboard.writeText(result);
+            toast.success("Contraseña copiada");
+        }
+
+        pw = "";
+   };
 </script>
 
 <div class="card" >
@@ -23,7 +66,10 @@
         </div>
         <div class="list-div" >
             {#each data as item, i}
-                <div on:click={()=> index=i} >
+                <div on:click={()=>{
+                    index = i;
+                    confirm = false;
+                }} >
                     {#if index === i}
                     <p>-</p>
                     {/if}
@@ -61,15 +107,33 @@
                         <p>{data[index].password}</p>
                     </div>
                     <div>
-                        <button>
+                        {#if !loading[1]}
+                        <button on:click={()=> {
+                            confirm = true;
+                            option = 3;
+                        }} >
                             <Eye />
                         </button>
-                        <button>
+                        {/if}
+                        <button on:click={()=> {
+                            confirm = true;
+                            option = 4;
+                        }} >
                             <Copy />
                         </button>
                     </div>
                </div>
-            </div>
+               {#if confirm}
+                <div class="confirm" >
+                    <h3>Escribe tu contraseña</h3>
+                    <input bind:value={pw} on:keypress={(e)=> {
+                        if(e.code === "Enter"){
+                            descrypt();
+                        }
+                    }} type="password">
+                </div>
+                {/if}
+           </div>
         </div>
         <div class="right" >
             <button><Pencil /></button>
@@ -167,7 +231,7 @@
     .passwords{
         display: flex;
         padding: 0 10px;
-        height: 140px;
+        height: 200px;
         width: 100%;
         justify-content: center;
         flex-direction: column;
@@ -211,4 +275,23 @@
         background: transparent;
         border: none;
     }  
+    .confirm{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .confirm h3{
+		color: var(--Color_Text);
+	}
+    .confirm input{
+        width: 300px;
+        background: transparent;
+		border: none;
+        border-bottom: 2px solid var(--Color_Primary);
+		outline: none;
+		font-size: 1em;
+		color: var(--Color_Text);
+		font-weight: 600;
+		padding: 0 35px 0 5px;
+    }
 </style>
