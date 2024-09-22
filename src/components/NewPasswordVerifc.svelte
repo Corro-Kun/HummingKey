@@ -1,6 +1,7 @@
 <script>
     import {request, newPassword} from '@/store/password.ts';
     import {navigate} from 'astro:transitions/client';
+    import toast from "svelte-french-toast";
 
     request.set(false);
     newPassword.set({});
@@ -13,7 +14,8 @@
         let result = await invoke("login", {password: password});
 
 		if(!result){
-            // trabajando en esto
+            toast.error('Contraseña incorrecta');
+            return
 		}
 
         let result2 = await invoke("create_password", {newPassword: $newPassword, password: password});

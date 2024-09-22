@@ -1,12 +1,14 @@
 <script>
 	import {onMount} from 'svelte';
 	import {navigate} from 'astro:transitions/client';
+    import toast from 'svelte-french-toast';
+    import { error } from 'node_modules/astro/dist/core/logger/core';
 
 	let user = "";
 
 	let password = "";
 
-	let login = true;
+	let loading = false;
 
 	onMount(async ()=>{
 		const { invoke } = await import('@tauri-apps/api');
@@ -15,32 +17,36 @@
 
     async function HandleSubmit(e) {
         e.preventDefault();
+		loading = true;
 		const { invoke } = await import('@tauri-apps/api');
 
 		let result = await invoke("login", {password: password});
 
 		if(!result){
-			login = false;
-			return;
+			loading = false
+			password = ""
+			throw new Error()
 		}
 
 		navigate("/home");
     }
 </script>
 
-<form class="login" on:submit={(e)=> HandleSubmit(e)} >
+<form class="login" on:submit={(e)=> toast.promise(HandleSubmit(e),{
+	loading: 'Iniciando sesión...',
+	success: `Bienvenido ${user}`,
+	error: 'Contraseña incorrecta'
+})} >
     <picture>
         <img src="https://somoskudasai.com/wp-content/uploads/2022/10/portada_ia-4.jpg" alt="profile" loading="lazy" >
     </picture>
-	{#if !login}
-		<h2>Contraseña incorrecta</h2>
-	{:else}
     	<h2>{user}</h2>
-	{/if}
+	{#if !loading}
     <div class="password">
         <input bind:value={password} id="pass" type="password" autoComplete="off" required />
         <label for="pass">Contraseña</label>
     </div>
+	{/if}
 </form>
 
 <style>
@@ -66,6 +72,7 @@
 		overflow: hidden;
 		border-radius: 50%;
         border: 2px solid var(--Color_Primary);
+		transition: .2s;
 	}
 	.login picture img{
 		height: 145px;

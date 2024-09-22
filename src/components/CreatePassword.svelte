@@ -16,6 +16,7 @@
     import Netflix from '@/components/icons/account/netflix.svelte';
     import Discord from '@/components/icons/account/discord.svelte';
     import Steam from '@/components/icons/account/steam.svelte';
+    import toast from "svelte-french-toast";
 
     let data = {
         name: "",
@@ -27,7 +28,8 @@
     function save(e){
         e.preventDefault();
         if(data.password.length > 16){
-            // trabajando en ello
+            toast.error("La contraseña no puede ser mayor a 16 letras");
+            return
         }
         if (data.icon === 0) {
             data.icon = 1;

@@ -58,7 +58,7 @@
                 <div class="pass-content" >
                     <div>
                         <h3>Contraseña</h3>
-                        <p>*********</p>
+                        <p>{data[index].password}</p>
                     </div>
                     <div>
                         <button>
