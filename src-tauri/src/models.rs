@@ -12,6 +12,7 @@ pub struct Password{
     pub name: String,
     pub icon: i32,
     pub user: String,
+    pub user_length: i32,
     pub password: String,
     pub password_length: i32,
 }

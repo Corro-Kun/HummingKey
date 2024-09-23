@@ -36,6 +36,7 @@
         }
         data.id = 0;
         data.password_length = data.password.length;
+        data.user_length = data.user.length;
         newPassword.set(data);
         request.set(true);
     }

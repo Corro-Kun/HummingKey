@@ -38,7 +38,21 @@
             return
 		}
 
-        if(option === 3){
+        if(option === 1){
+            result = await invoke("descrypt_data",{password: pw, data: data[index].user});
+            data[index].user = result.substring(data[index].user_length, 0);
+
+            loading[0] = true;
+
+            setTimeout( async ()=>{
+                data = await invoke("get_passwords");
+                loading[0] = false;
+            }, 5000);
+        }else if(option === 2){
+            result = await invoke("descrypt_data",{password: pw, data: data[index].user});
+            navigator.clipboard.writeText(result);
+            toast.success("Email copiado");
+        }else if(option === 3){
             result = await invoke("descrypt_data",{password: pw, data: data[index].password});
             data[index].password = result.substring(data[index].password_length, 0);
 
@@ -93,10 +107,18 @@
                         <p>{data[index].user}</p>
                     </div>
                     <div>
-                        <button>
+                        {#if !loading[0]}
+                        <button on:click={()=>{
+                            confirm = true;
+                            option = 1;
+                        }} >
                             <Eye />
                         </button>
-                        <button>
+                        {/if}
+                        <button on:click={()=>{
+                            confirm = true;
+                            option = 2;
+                        }} >
                             <Copy />
                         </button>
                     </div>

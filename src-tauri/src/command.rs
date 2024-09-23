@@ -94,11 +94,26 @@ pub fn create_password(new_password: Password, password: String) -> bool{
         x
     });
 
+    let user_bytes = new_password.user.as_bytes();
+
+    let mut block_user = GenericArray::from([0u8; 16]);
+
+    index = 0;
+
+    block_user = block_user.map(|mut x|{
+        if user_bytes.len() > index{
+            x = user_bytes[index];
+            index += 1;
+        }
+        x
+    });
+
     let cipher = Aes256::new(&key);
 
     cipher.encrypt_block(&mut block);
+    cipher.encrypt_block(&mut block_user);
 
-    let _ = conn.execute("INSERT INTO password (name, icon, user, password, password_length) VALUES (?1, ?2, ?3, ?4, ?5)", params![new_password.name, new_password.icon, new_password.user, hex::encode(block), new_password.password_length]).expect("error while inserting password");
+    let _ = conn.execute("INSERT INTO password (name, icon, user, user_length, password, password_length) VALUES (?1, ?2, ?3, ?4, ?5, ?6)", params![new_password.name, new_password.icon, hex::encode(block_user), new_password.user.len(),hex::encode(block), new_password.password_length]).expect("error while inserting password");
 
     true
 }
@@ -106,7 +121,7 @@ pub fn create_password(new_password: Password, password: String) -> bool{
 #[tauri::command]
 pub fn get_passwords() -> Vec<Password>{
     let conn = connect();
-    let mut stmt = conn.prepare("SELECT id, name, icon, user, password, password_length FROM password").map_err(|err| format!("the error is {}", err.to_string())).unwrap();
+    let mut stmt = conn.prepare("SELECT id, name, icon, user, user_length, password, password_length FROM password").map_err(|err| format!("the error is {}", err.to_string())).expect("error while preparing statement");
     let mut passwords = Vec::new();
 
     stmt.query_map([], |row| {
@@ -115,8 +130,9 @@ pub fn get_passwords() -> Vec<Password>{
             name: row.get(1)?,
             icon: row.get(2)?,
             user: row.get(3)?,
-            password: row.get(4)?,
-            password_length: row.get(5)?
+            user_length: row.get(4)?,
+            password: row.get(5)?,
+            password_length: row.get(6)?
         })
     }).unwrap().for_each(|password| {
         passwords.push(password.unwrap());

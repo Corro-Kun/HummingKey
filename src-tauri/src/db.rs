@@ -21,6 +21,7 @@ pub fn create_db() {
             name TEXT NOT NULL,
             icon INTEGER NOT NULL,
             user TEXT NOT NULL,
+            user_length INTEGER NOT NULL,
             password TEXT NOT NULL,
             password_length INTEGER NOT NULL
         )",
