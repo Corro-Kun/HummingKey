@@ -5,6 +5,7 @@
     import AccountIcons from '@/components/AccountIcons.svelte';
     import Copy from '@/components/icons/Copy.svelte';
     import Eye from '@/components/icons/Eye.svelte';
+    import Loading from '@/components/icons/Loading.svelte';
     import toast from "svelte-french-toast";
 
     let data = [];
@@ -114,6 +115,10 @@
                         }} >
                             <Eye />
                         </button>
+                        {:else}
+                        <button>
+                            <Loading />
+                        </button>
                         {/if}
                         <button on:click={()=>{
                             confirm = true;
@@ -135,6 +140,10 @@
                             option = 3;
                         }} >
                             <Eye />
+                        </button>
+                        {:else}
+                        <button>
+                            <Loading />
                         </button>
                         {/if}
                         <button on:click={()=> {
