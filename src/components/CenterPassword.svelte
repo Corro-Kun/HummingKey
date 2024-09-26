@@ -89,7 +89,7 @@
                     <p>-</p>
                     {/if}
                     <AccountIcons icon={item.icon} />
-                    <p class="text-pass" >{item.name}</p>
+                    <p class="text-pass" >{item.name.length > 21? item.name.substring(0, 20) + '...' : item.name}</p>
                 </div>
             {/each}
         </div>
@@ -99,7 +99,7 @@
         <div class="left" >
             <div class="title-content" >
                 <AccountIcons icon={data[index].icon} />
-                <h2>{data[index].name}</h2>
+                <h2>{data[index].name.length > 21? data[index].name.substring(0, 20)+'...' : data[index].name }</h2>
             </div>
             <div class="passwords" >
                 <div class="pass-content" >
