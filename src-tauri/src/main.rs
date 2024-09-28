@@ -10,7 +10,7 @@ use command::*;
 
 fn main() {
   tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![verify_db, create_user, get_name_user, login, create_password, get_passwords, descrypt_data])
+    .invoke_handler(tauri::generate_handler![verify_db, create_user, get_name_user, login, create_password, get_passwords, descrypt_data, delete_password])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }

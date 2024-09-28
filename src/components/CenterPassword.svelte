@@ -23,6 +23,7 @@
     onMount(async ()=>{
         const { invoke } = await import('@tauri-apps/api');
         data = await invoke("get_passwords");
+        console.log(data);
     });
     
     async function descrypt(){
@@ -68,6 +69,16 @@
             result = await invoke("descrypt_data",{password: pw, data: data[index].password});
             navigator.clipboard.writeText(result);
             toast.success("Contraseña copiada");
+        }else if (option === 6){
+            toast.promise(await invoke("delete_password", {id: data[index].id}),{
+                loading: 'Eliminando...',
+                success: 'Contraseña eliminada',
+                error: 'Error al eliminar la contraseña'
+            }).then(()=>{
+                data = data.filter((item, i) => i !== index);
+                index = null;
+            })
+
         }
 
         pw = "";
@@ -168,7 +179,10 @@
         </div>
         <div class="right" >
             <button><Pencil /></button>
-            <button><Trash /></button> 
+            <button on:click={()=> {
+                confirm = true
+                option = 6;
+                }}  ><Trash /></button> 
         </div>
     </div>
     {/if}
@@ -204,12 +218,10 @@
         color: var(--Color_Text);
     }
     .list-div{
-        display: flex;
         height: 270px;
         width: 100%;
         overflow-x: hidden;
         overflow-y: auto;
-        flex-direction: column;
     }
     .list-div::-webkit-scrollbar{
         background: transparent;
@@ -225,6 +237,7 @@
     .list-div div{
         display: flex;
         margin-top: 5px;
+        margin-bottom: 5px;
         padding: 2px 5px;
         cursor: pointer;
         transition: .2s;

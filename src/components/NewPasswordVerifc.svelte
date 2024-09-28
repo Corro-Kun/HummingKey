@@ -8,7 +8,11 @@
 
     let password = "";
 
+    let loading = 0;
+
     async function save() {
+        loading = 1;
+
         const { invoke } = await import('@tauri-apps/api');
         
         let result = await invoke("login", {password: password});
@@ -27,6 +31,8 @@
         request.set(false);
         newPassword.set({});
 
+        loading = 0;
+
         navigate("/home");
     }
 
@@ -37,9 +43,18 @@
 {:else if $request}
 <div class="confirm" >
     <h2>Escribe tu contraseña</h2>
-    <input bind:value={password} type="password">
+    <input bind:value={password} type="password" 
+        on:keypress={(e)=> {
+            if(e.code === "Enter"){
+                save();
+            }
+        }} >
     <div>
-        <button on:click={save} >Confirmar</button>
+        {#if loading === 1}
+            <button disabled >Cargando...</button>
+        {:else}
+            <button on:click={save} >Confirmar</button>
+        {/if}
     </div>
 </div>
 {/if}

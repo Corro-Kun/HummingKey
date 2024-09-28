@@ -17,6 +17,7 @@
     import Discord from '@/components/icons/account/discord.svelte';
     import Steam from '@/components/icons/account/steam.svelte';
     import toast from "svelte-french-toast";
+    import Loading from '@/components/icons/Loading.svelte';
 
     let data = {
         name: "",
@@ -112,7 +113,11 @@
         <input type="password" required bind:value={data.password} >
     </div>
     <div class="button-save" >
+        {#if !$request}
         <button>Guardar</button>
+        {:else}
+            <Loading />
+        {/if}
     </div>
 </form>
 
@@ -193,6 +198,7 @@
         display: flex;
         justify-content: center;
         margin-block: 15px;
+        color: var(--Color_Text);
     }
     .button-save button{
         padding: 8px 15px;

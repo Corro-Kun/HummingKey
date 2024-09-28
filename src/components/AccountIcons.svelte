@@ -40,9 +40,9 @@
 {:else if icon === 10}
 <Facebook />
 {:else if icon === 11}
-<Reddit />
-{:else if icon === 12}
 <X />
+{:else if icon === 12}
+<Reddit />
 {:else if icon === 13}
 <Spotify />
 {:else if icon === 14}

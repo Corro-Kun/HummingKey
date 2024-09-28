@@ -167,3 +167,10 @@ pub fn descrypt_data(password: String, data: String) -> String{
 
     return String::from_utf8_lossy(&decrypted).to_string();
 }
+
+#[tauri::command]
+pub fn delete_password(id: i32){
+    let conn = connect();
+
+    let _ = conn.execute("DELETE FROM password WHERE id = ?1", params![id]).expect("error while deleting password");
+}
