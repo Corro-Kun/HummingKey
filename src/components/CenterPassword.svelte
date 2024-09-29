@@ -7,6 +7,9 @@
     import Eye from '@/components/icons/Eye.svelte';
     import Loading from '@/components/icons/Loading.svelte';
     import toast from "svelte-french-toast";
+    import {send, receive} from '@/lib/transition.js';
+    import {fade} from 'svelte/transition';
+    import {flip} from 'svelte/animate';
 
     let data = [];
 
@@ -91,11 +94,15 @@
             <h2>Contraseñas</h2>
         </div>
         <div class="list-div" >
-            {#each data as item, i}
+            {#each data as item, i (item.id)}
                 <div on:click={()=>{
-                    index = i;
-                    confirm = false;
-                }} >
+                    if(index === i){
+                        index = null;
+                    }else{
+                        index = i;
+                        confirm = false;
+                    }
+                }} animate:flip >
                     {#if index === i}
                     <p>-</p>
                     {/if}
@@ -106,7 +113,10 @@
         </div>
     </div>
     {#if index !== null}
-    <div class="content" >
+    <div class="content" 
+    in:receive
+    out:send
+    >
         <div class="left" >
             <div class="title-content" >
                 <AccountIcons icon={data[index].icon} />
@@ -166,7 +176,9 @@
                     </div>
                </div>
                {#if confirm}
-                <div class="confirm" >
+                <div class="confirm"
+                    transition:fade={{duration: 200}}
+                >
                     <h3>Escribe tu contraseña</h3>
                     <input bind:value={pw} on:keypress={(e)=> {
                         if(e.code === "Enter"){

@@ -2,6 +2,7 @@
     import {request, newPassword} from '@/store/password.ts';
     import {navigate} from 'astro:transitions/client';
     import toast from "svelte-french-toast";
+    import {send, receive} from '@/lib/transition.js'
 
     request.set(false);
     newPassword.set({});
@@ -19,6 +20,7 @@
 
 		if(!result){
             toast.error('Contraseña incorrecta');
+            loading = 0;
             return
 		}
 
@@ -41,7 +43,10 @@
 {#if !$request}
 <h1></h1>
 {:else if $request}
-<div class="confirm" >
+<div class="confirm" 
+    in:receive
+    out:send
+>
     <h2>Escribe tu contraseña</h2>
     <input bind:value={password} type="password" 
         on:keypress={(e)=> {
