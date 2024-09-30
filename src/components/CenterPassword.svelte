@@ -73,15 +73,17 @@
             navigator.clipboard.writeText(result);
             toast.success("Contraseña copiada");
         }else if (option === 6){
-            toast.promise(await invoke("delete_password", {id: data[index].id}),{
-                loading: 'Eliminando...',
-                success: 'Contraseña eliminada',
-                error: 'Error al eliminar la contraseña'
-            }).then(()=>{
+            async function delete_password(){
+                await invoke("delete_password", {id: data[index].id});
                 data = data.filter((item, i) => i !== index);
                 index = null;
-            })
+            }
 
+            toast.promise(delete_password(), {
+                loading: 'Eliminando contraseña',
+                success: 'Contraseña eliminada',
+                error: 'Error al eliminar la contraseña'
+            });
         }
 
         pw = "";
