@@ -4,9 +4,9 @@ use crate::models::*;
 use bcrypt::{hash, verify, DEFAULT_COST};
 use crate::lib::check::check_db;
 use aes::cipher::{generic_array::GenericArray, KeyInit};
-use aes::cipher::{BlockDecrypt, BlockEncrypt};
 use aes::Aes256;
 use block_padding::generic_array::functional::FunctionalSequence;
+use crate::lib::encrypt::{encrypt, decrypt};
 
 #[tauri::command]
 pub fn verify_db() -> bool{
@@ -80,40 +80,12 @@ pub fn create_password(new_password: Password, password: String) -> bool{
         x
     });
 
-    let password_new_bytes = new_password.password.as_bytes();
-
-    let mut block = GenericArray::from([0u8; 16]);
-
-    index = 0;
-
-    block = block.map(|mut x|{
-        if password_new_bytes.len() > index{
-            x = password_new_bytes[index];
-            index += 1;
-        }
-        x
-    });
-
-    let user_bytes = new_password.user.as_bytes();
-
-    let mut block_user = GenericArray::from([0u8; 16]);
-
-    index = 0;
-
-    block_user = block_user.map(|mut x|{
-        if user_bytes.len() > index{
-            x = user_bytes[index];
-            index += 1;
-        }
-        x
-    });
-
     let cipher = Aes256::new(&key);
 
-    cipher.encrypt_block(&mut block);
-    cipher.encrypt_block(&mut block_user);
+    let user = encrypt(&new_password.user, &cipher);
+    let password = encrypt(&new_password.password, &cipher);
 
-    let _ = conn.execute("INSERT INTO password (name, icon, user, user_length, password, password_length) VALUES (?1, ?2, ?3, ?4, ?5, ?6)", params![new_password.name, new_password.icon, hex::encode(block_user), new_password.user.len(),hex::encode(block), new_password.password_length]).expect("error while inserting password");
+    let _ = conn.execute("INSERT INTO password (name, icon, user, user_length, password, password_length) VALUES (?1, ?2, ?3, ?4, ?5, ?6)", params![new_password.name, new_password.icon, user, new_password.user.len(),password, new_password.password_length]).expect("error while inserting password");
 
     true
 }
@@ -157,15 +129,7 @@ pub fn descrypt_data(password: String, data: String) -> String{
 
     let cipher = Aes256::new(&key);
 
-    let message = hex::decode(data).expect("error");
-
-    let mut decrypted = GenericArray::from([0u8; 16]);
-
-    decrypted.copy_from_slice(&message);
-
-    cipher.decrypt_block(&mut decrypted);
-
-    return String::from_utf8_lossy(&decrypted).to_string();
+    decrypt(&data, &cipher)
 }
 
 #[tauri::command]

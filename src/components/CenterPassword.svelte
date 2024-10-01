@@ -128,7 +128,7 @@
                 <div class="pass-content" >
                     <div>
                         <h3>Email</h3>
-                        <p>{data[index].user}</p>
+                        <p>{data[index].user.length > 32? data[index].user.substring(0, 32) : data[index].user }</p>
                     </div>
                     <div>
                         {#if !loading[0]}
@@ -154,7 +154,7 @@
                 <div class="pass-content" >
                     <div>
                         <h3>Contraseña</h3>
-                        <p>{data[index].password}</p>
+                        <p>{data[index].password.length > 32? data[index].password.substring(0, 32) : data[index].password}</p>
                     </div>
                     <div>
                         {#if !loading[1]}

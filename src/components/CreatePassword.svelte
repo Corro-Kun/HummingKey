@@ -28,10 +28,6 @@
 
     function save(e){
         e.preventDefault();
-        if(data.password.length > 16){
-            toast.error("La contraseña no puede ser mayor a 16 letras");
-            return
-        }
         if (data.icon === 0) {
             data.icon = 1;
         }
