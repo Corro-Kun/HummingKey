@@ -1,6 +1,7 @@
 <script>
 	import {navigate} from 'astro:transitions/client';
 	import Loader from '@/components/Loader.svelte';
+	import toast from "svelte-french-toast";
 
 	let data = {
 		name: "",
@@ -14,9 +15,25 @@
 
 		loading = true;
 
+		if(data.name === "" || data.password === ""){
+			toast.error("Por favor, rellene todos los campos");
+			loading = false;
+			return;
+		}
+
+		if (data.password.length > 32) {
+			toast.error("La contraseña no puede ser mayor a 32 caracteres");
+			loading = false;
+			return;
+		}
+
 		const { invoke } = await import('@tauri-apps/api');
 
 		await invoke("create_user", {user: data});
+
+		toast.success("Usuario creado con éxito");
+
+		loading = false;
 
 		navigate("/mainLogin");
 	}

@@ -10,6 +10,7 @@
     import {send, receive} from '@/lib/transition.js';
     import {fade} from 'svelte/transition';
     import {flip} from 'svelte/animate';
+    import {navigate} from 'astro:transitions/client';
 
     let data = [];
 
@@ -26,7 +27,6 @@
     onMount(async ()=>{
         const { invoke } = await import('@tauri-apps/api');
         data = await invoke("get_passwords");
-        console.log(data);
     });
     
     async function descrypt(){
@@ -192,7 +192,7 @@
            </div>
         </div>
         <div class="right" >
-            <button><Pencil /></button>
+            <button on:click={()=> navigate("/password/edit?id="+data[index].id)} ><Pencil /></button>
             <button on:click={()=> {
                 confirm = true
                 option = 6;

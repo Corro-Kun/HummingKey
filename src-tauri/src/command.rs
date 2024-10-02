@@ -1,4 +1,5 @@
 use rusqlite::params;
+use serde::de;
 use crate::db::connect;
 use crate::models::*;
 use bcrypt::{hash, verify, DEFAULT_COST};
@@ -130,6 +131,66 @@ pub fn descrypt_data(password: String, data: String) -> String{
     let cipher = Aes256::new(&key);
 
     decrypt(&data, &cipher)
+}
+
+#[tauri::command]
+pub fn get_password_by_id(id: i32, password: String) -> Password{
+    let conn = connect();
+
+    let mut key = GenericArray::from([0u8; 32]);
+
+    let password_bytes = password.as_bytes();
+    let mut index = 0;
+
+    key = key.map(|mut x|{
+        if password_bytes.len() > index{
+            x = password_bytes[index];
+            index += 1;
+        }
+        x
+    });
+
+    let cipher = Aes256::new(&key);
+
+    let mut stmt = conn.prepare("SELECT id, name, icon, user, user_length, password, password_length FROM password WHERE id = ?1").map_err(|err| format!("the error is {}", err.to_string())).expect("error while preparing statement");
+
+    let password = stmt.query_row(params![id], |row| {
+        Ok(Password{
+            id: row.get(0)?,
+            name: row.get(1)?,
+            icon: row.get(2)?,
+            user: decrypt(&row.get(3)?, &cipher),
+            user_length: row.get(4)?,
+            password: decrypt(&row.get(5)?, &cipher),
+            password_length: row.get(6)?
+        })
+    }).expect("error while getting password");
+
+    password
+}
+
+#[tauri::command]
+pub fn update_password(update_password: Password, password: String){
+    let conn = connect();
+
+    let mut key = GenericArray::from([0u8; 32]);
+    let password_bytes = password.as_bytes();
+    let mut index = 0;
+
+    key = key.map(|mut x|{
+        if password_bytes.len() > index{
+            x = password_bytes[index];
+            index += 1;
+        }
+        x
+    });
+
+    let cipher = Aes256::new(&key);
+
+    let user = encrypt(&update_password.user, &cipher);
+    let password = encrypt(&update_password.password, &cipher);
+
+    let _ = conn.execute("UPDATE password SET name = ?1, icon = ?2, user = ?3, user_length = ?4, password = ?5, password_length = ?6 WHERE id = ?7", params![update_password.name, update_password.icon, user, update_password.user_length, password, update_password.password_length, update_password.id]).expect("error while updating password");
 }
 
 #[tauri::command]

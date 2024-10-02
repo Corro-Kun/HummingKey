@@ -1,0 +1,43 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Profile from "@/components/Profile.svelte";
+import BarBottom from "@/components/BarBottom.astro";
+import UpdatePassword from "@/components/UpdatePassword.svelte";
+---
+
+<Layout title="edit" >
+    <main>
+        <div class="header">
+            <Profile client:load />
+        </div>
+        <div class="main" >
+            <UpdatePassword client:load />
+        </div>
+        <BarBottom />
+    </main>
+</Layout>
+
+<style>
+    main{
+        display: flex;
+        padding: 10px;
+        height: 100vh;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: column;
+        overflow: hidden;
+    }
+    .header{
+        width: 100%;
+        display: flex;
+        justify-content: right;
+    }
+    .main{
+        display: flex;
+        padding: 25px;
+        width: 100%;
+        background: transparent;
+        align-items: center;
+        justify-content: right;
+    }
+</style>

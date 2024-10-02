@@ -1,5 +1,7 @@
 <script>
-    import {request, newPassword} from '@/store/password.ts';
+    import { onMount } from 'svelte';
+    import {navigate} from 'astro:transitions/client';
+    import toast from "svelte-french-toast";
     import Box from '@/components/icons/account/box.svelte';
     import Book from '@/components/icons/account/books.svelte';
     import Store from '@/components/icons/account/store.svelte';
@@ -16,36 +18,94 @@
     import Netflix from '@/components/icons/account/netflix.svelte';
     import Discord from '@/components/icons/account/discord.svelte';
     import Steam from '@/components/icons/account/steam.svelte';
-    import toast from "svelte-french-toast";
     import Loading from '@/components/icons/Loading.svelte';
 
+    let id = 0;
+
+    let password = "";
+
+    let loading = 0;
+
+    let confirm = 0;
+
     let data = {
-        name: "",
+        id: 0,
         icon: 0,
+        name: "",
         user: "",
-        password: ""
+        user_length: 0,
+        password: "",
+        password_length: 0,
+    };
+
+    onMount(async () => {
+        let url = new URL(window.location.href);
+        id = url.searchParams.get('id');
+    });
+
+    async function getPassword(){
+        loading = 1;
+        const { invoke } = await import('@tauri-apps/api');
+
+        let result = await invoke("login", {password: password});
+
+        if(!result){
+            toast.error('Contraseña incorrecta');
+            loading = 0;
+            return
+		}
+
+        data = await invoke('get_password_by_id', {id: Number(id), password: password});
+
+        data.password = data.password.substring(data.password_length, 0);
+        data.user = data.user.substring(data.user_length, 0);
+
+        loading = 0;
+        confirm = 1;
     }
 
-    function save(e){
+    async function save(e){
         e.preventDefault();
+        const { invoke } = await import('@tauri-apps/api');
+
+        loading = 1;
+
         if(data.name === "" || data.user === "" || data.password === ""){
             toast.error('Todos los campos son obligatorios');
+            loading = 0;
             return
         }
-        if (data.icon === 0) {
+
+        if(data.icon === 0){
             data.icon = 1;
         }
-        data.id = 0;
-        data.password_length = data.password.length;
-        data.user_length = data.user.length;
-        newPassword.set(data);
-        request.set(true);
-    }
 
+        data.user_length = data.user.length;
+        data.password_length = data.password.length;
+
+        let result = await invoke("update_password", {updatePassword: data, password: password});
+
+        toast.success('Contraseña actualizada correctamente');
+
+        loading = 0;
+
+        navigate("/home");
+    }
 </script>
+
+{#if confirm === 0}
+<div class="confirm-password" >
+    <h2>Confirma tu Contraseña</h2>
+    <input type="password" bind:value={password} >
+    <div>
+        <button class="cancel" on:click={()=> navigate("/home")} >Cancelar</button>
+        <button class="confirm" on:click={getPassword} >Confirmar</button>
+    </div>
+</div>
+{:else}
 <form on:submit={save} >
     <div class="title" >
-        <h1>Crea tu nueva contraseña</h1>
+        <h1>Actualiza tu nueva contraseña</h1>
     </div>
     <div class="input" >
         <label for="name">Nombre de tu contraseña</label>
@@ -113,15 +173,63 @@
         <input type="password" required bind:value={data.password} >
     </div>
     <div class="button-save" >
-        {#if !$request}
-        <button>Guardar</button>
-        {:else}
+        {#if loading === 0}
+            <button>Actualizar</button>
+        {:else if loading === 1}
             <Loading />
         {/if}
     </div>
 </form>
+{/if}
 
 <style>
+    .confirm-password {
+        display: flex;
+        padding: 10px;
+        background: transparent;
+        backdrop-filter: blur(10px);
+        border: 2px solid var(--Color_Primary);
+        border-radius: 8px;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+    .confirm-password h2{
+        color: var(--Color_Text);
+    }
+    .confirm-password input{
+        background: transparent;
+		border: none;
+        border-bottom: 2px solid var(--Color_Primary);
+		outline: none;
+		font-size: 1em;
+		color: var(--Color_Text);
+		font-weight: 600;
+		padding: 0 35px 0 5px;
+    }
+    .confirm-password div{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+    .cancel{
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--Color_Text);
+    }
+    .confirm{
+        padding: 8px 15px;
+        background: var(--Color_Primary);
+        color: var(--Color_Text);
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: .3s;
+    }
+    .confirm:hover{
+        background: var(--Color_Secondary);
+    }
     form{
         height: 500px;
         width: 500px;
