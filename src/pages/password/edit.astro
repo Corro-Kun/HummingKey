@@ -1,20 +1,12 @@
 ---
-import Layout from "@/layouts/Layout.astro";
-import Profile from "@/components/Profile.svelte";
-import BarBottom from "@/components/BarBottom.astro";
 import UpdatePassword from "@/components/UpdatePassword.svelte";
+import LayoutHome from "@/layouts/LayoutHome.astro";
 ---
 
-<Layout title="edit" >
-    <main>
-        <div class="header">
-            <Profile client:load />
-        </div>
-        <div class="main" >
-            <UpdatePassword client:load />
-        </div>
-        <BarBottom />
-    </main>
+<LayoutHome title="edit"  >
+    <div class="main" >
+        <UpdatePassword client:load />
+    </div>
 </Layout>
 
 <style>

@@ -9,7 +9,7 @@
 	});
 </script>
 
-<picture>
+<picture out:fade|keepUpdatingState >
     <img src={img} alt="profile" loading="lazy" >
 </picture>
 

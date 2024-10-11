@@ -17,7 +17,7 @@ tauri-build = { version = "1.5.4", features = [] }
 [dependencies]
 serde_json = "1.0.127"
 serde = { version = "1.0.209", features = ["derive"] }
-tauri = { version = "1.7.2", features = [ "protocol-asset", "dialog-open"] }
+tauri = { version = "1.7.2", features = [ "protocol-all", "fs-read-dir", "fs-read-file", "dialog-open"] }
 rusqlite = { version = "0.32.1", features = ["bundled"] }
 bcrypt = "0.15.1"
 aes = "0.8.4"

@@ -1,16 +1,8 @@
 ---
-import Layout from '@/layouts/Layout.astro';
-import BarBottom from "@/components/BarBottom.astro";
-import Profile from "@/components/Profile.svelte";
+import LayoutHome from '@/layouts/LayoutHome.astro';
 ---
 
-<Layout title="User" >
-    <main>
-        <div>
-            <Profile client:load />
-        </div>
-        <BarBottom profilePage />
-    </main>
+<LayoutHome title="User" profilePage >
 </Layout>
 
 <style>

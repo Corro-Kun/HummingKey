@@ -1,0 +1,41 @@
+---
+import BarBottom from "@/components/BarBottom.astro";
+import Profile from "@/components/Profile.svelte";
+import Layout from "@/layouts/Layout.astro";
+interface Props {
+	title: string;
+    homePage?: boolean;
+    newPage?: boolean;
+    exportPage?: boolean;
+    profilePage?: boolean;
+    logoutPage?: boolean;
+}
+const { title, homePage=false, newPage=false, exportPage=false, profilePage=false, logoutPage=false } = Astro.props;
+---
+
+<Layout title={title} >
+    <main>
+        <div>
+            <Profile client:load />
+        </div>
+        <slot />
+        <BarBottom homePage={homePage} newPage={newPage} exportPage={exportPage} profilePage={profilePage} logoutPage={logoutPage} />
+    </main>
+</Layout>
+
+<style>
+    main{
+        display: flex;
+        padding: 10px;
+        height: 100vh;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: column;
+        overflow: hidden;
+    }
+    div{
+        width: 100%;
+        display: flex;
+        justify-content: right;
+    }
+</style>

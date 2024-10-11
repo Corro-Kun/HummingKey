@@ -22,9 +22,14 @@
         "open": true,
         "save": false
       },
+      "fs": {
+        "readFile": true,
+        "readDir": true
+      },
       "protocol": {
-        "all": false,
-        "asset": true
+        "all": true,
+        "asset": true,
+        "assetScope": ["**"]
       }
     },
     "bundle": {

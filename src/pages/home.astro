@@ -1,33 +1,8 @@
 ---
-import Layout from "@/layouts/Layout.astro";
 import CenterPassword from "@/components/ListPasswords.svelte";
-import BarBottom from "@/components/BarBottom.astro";
-import Profile from "@/components/Profile.svelte";
+import LayoutHome from "@/layouts/LayoutHome.astro";
 ---
 
-<Layout title="home" >
-    <main>
-        <div>
-            <Profile client:load />
-        </div>
-        <CenterPassword client:load />
-        <BarBottom homePage />
-    </main>
+<LayoutHome title="home" homePage >
+    <CenterPassword client:load />
 </Layout>
-
-<style>
-    main{
-        display: flex;
-        padding: 10px;
-        height: 100vh;
-        align-items: center;
-        justify-content: space-between;
-        flex-direction: column;
-        overflow: hidden;
-    }
-    div{
-        width: 100%;
-        display: flex;
-        justify-content: right;
-    }
-</style>

@@ -1,39 +1,17 @@
 ---
-import Layout from "@/layouts/Layout.astro";
-import Profile from "@/components/Profile.svelte";
 import CreatePassword from "@/components/CreatePassword.svelte";
 import NewPasswordVerifc from "@/components/NewPasswordVerifc.svelte";
-import BarBottom from "@/components/BarBottom.astro";
+import LayoutHome from "@/layouts/LayoutHome.astro";
 ---
 
-<Layout title="new" >
-    <main>
-        <div class="header">
-            <Profile client:load />
-        </div>
-        <div class="main" >
-            <NewPasswordVerifc client:load />
-            <CreatePassword client:load />
-        </div>
-        <BarBottom newPage />
-    </main>
+<LayoutHome title="new" newPage >
+    <div class="main" >
+        <NewPasswordVerifc client:load />
+        <CreatePassword client:load />
+    </div>
 </Layout>
 
 <style>
-    main{
-        display: flex;
-        padding: 10px;
-        height: 100vh;
-        align-items: center;
-        justify-content: space-between;
-        flex-direction: column;
-        overflow: hidden;
-    }
-    .header{
-        width: 100%;
-        display: flex;
-        justify-content: right;
-    }
     .main{
         display: flex;
         padding: 25px;
