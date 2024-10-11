@@ -25,11 +25,11 @@ const { homePage=false, newPage=false, exportPage=false, profilePage=false, logo
         <New />
         {newPage && <div class="check" />}
     </a>
-    <a href="" class={exportPage? "active": ""}>
+    <a href="/password/export" class={exportPage? "active": ""}>
         <Export />
         {exportPage && <div class="check" />}
     </a>
-    <a href="" class={profilePage? "active": ""}>
+    <a href="/user" class={profilePage? "active": ""}>
         <Profile />
         {profilePage && <div class="check" />}
     </a>

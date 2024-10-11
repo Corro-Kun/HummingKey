@@ -28,8 +28,8 @@ pub fn create_user(user: User) -> bool{
 
     let hashed_password = hash(user.password, DEFAULT_COST).unwrap();
 
-    let _ = conn.execute("INSERT INTO user (id, name, password) VALUES (?1, ?2, ?3)",
-        params![1, user.name, hashed_password]
+    let _ = conn.execute("INSERT INTO user (id, name, password, image) VALUES (?1, ?2, ?3, ?4)",
+        params![1, user.name, hashed_password, user.image]
     );
 
     true
@@ -48,6 +48,21 @@ pub fn get_name_user() -> String{
     });
 
     name
+}
+
+#[tauri::command]
+pub fn get_image_user() -> String{
+    let conn = connect();
+    let mut img = String::new();
+
+    let mut stmt = conn.prepare("SELECT image FROM user").map_err(|err| format!("the error is {}", err.to_string())).unwrap();
+
+    let _ = stmt.query_row([], |row|{
+        img = row.get(0)?;
+        Ok(())
+    });
+
+    img
 }
 
 #[tauri::command]

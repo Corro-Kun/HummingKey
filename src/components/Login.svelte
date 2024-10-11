@@ -8,11 +8,14 @@
 
 	let password = "";
 
+	let img = "";
+
 	let loading = false;
 
 	onMount(async ()=>{
 		const { invoke } = await import('@tauri-apps/api');
 		user = await invoke("get_name_user");
+		img = await invoke("get_image_user");
 	});
 
     async function HandleSubmit(e) {
@@ -38,7 +41,7 @@
 	error: 'Contraseña incorrecta'
 })} >
     <picture>
-        <img src="https://somoskudasai.com/wp-content/uploads/2022/10/portada_ia-4.jpg" alt="profile" loading="lazy" >
+        <img src={img} alt="profile" loading="lazy" >
     </picture>
     	<h2>{user}</h2>
 	{#if !loading}

@@ -10,6 +10,7 @@ pub fn create_db() {
     conn.execute(
         "CREATE TABLE IF NOT EXISTS user (
             id INTEGER PRIMARY KEY,
+            image TEXT,
             name TEXT NOT NULL,
             password TEXT NOT NULL
         )",

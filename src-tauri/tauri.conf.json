@@ -13,7 +13,19 @@
   },
   "tauri": {
     "allowlist": {
-      "all": false
+      "all": false,
+      "dialog": {
+        "all": false,
+        "ask": false,
+        "confirm": false,
+        "message": false,
+        "open": true,
+        "save": false
+      },
+      "protocol": {
+        "all": false,
+        "asset": true
+      }
     },
     "bundle": {
       "active": true,
@@ -49,7 +61,7 @@
       }
     },
     "security": {
-      "csp": null
+      "csp": "default-src: 'self'; media-src 'self' stream: https://* asset: https://* "
     },
     "updater": {
       "active": false

@@ -1,5 +1,16 @@
+<script>
+    import {onMount} from 'svelte';
+
+    let img = ""
+
+    onMount(async ()=>{
+		const { invoke } = await import('@tauri-apps/api');
+		img = await invoke("get_image_user");
+	});
+</script>
+
 <picture>
-    <img src="https://somoskudasai.com/wp-content/uploads/2022/10/portada_ia-4.jpg" alt="profile" loading="lazy" >
+    <img src={img} alt="profile" loading="lazy" >
 </picture>
 
 <style>

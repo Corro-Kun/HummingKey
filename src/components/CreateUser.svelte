@@ -5,6 +5,7 @@
 
 	let data = {
 		name: "",
+		image: "https://somoskudasai.com/wp-content/uploads/2022/10/portada_ia-4.jpg",
 		password: ""
 	}
 
@@ -37,13 +38,28 @@
 
 		navigate("/mainLogin");
 	}
+	async function uploadImage(){
+		const {convertFileSrc} = await import('@tauri-apps/api/tauri');
+		const { open } = await import('@tauri-apps/api/dialog');
+
+		const filePath = await open({
+    		multiple: false,
+    		filters: [
+      			{ name: 'Image', extensions: ['png', 'jpg','jpeg', 'gif'] }, // Filtrar tipos de archivo
+    		],
+  		});
+
+		if (filePath !== null){
+			data.image = convertFileSrc(filePath);
+		}
+	}
 </script>
 
 <form class="new" on:submit={HandleSubmit} >
     <h2>Bienvenido a HummingKey</h2>
     <p>Crea tu usuario y credenciales</p>
-    <picture>
-        <img src="https://somoskudasai.com/wp-content/uploads/2022/10/portada_ia-4.jpg" alt="profile" loading="lazy" >
+    <picture on:click={uploadImage} >
+        <img src={data.image} alt="profile" loading="lazy" >
     </picture>
     <div class="Inputs" >
         <input bind:value={data.name} id="user" type="text" autoComplete="off" required>
@@ -91,7 +107,7 @@
         cursor: pointer;
 	}
 	.new picture img{
-		height: 145px;
+		height: 140px;
 	}
 	.new h2{
 		font-size: 1.4em;
