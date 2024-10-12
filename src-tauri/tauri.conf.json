@@ -65,9 +65,6 @@
         "timestampUrl": ""
       }
     },
-    "security": {
-      "csp": "default-src: 'self'; media-src 'self' stream: https://* asset: https://* "
-    },
     "updater": {
       "active": false
     },

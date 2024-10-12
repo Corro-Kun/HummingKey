@@ -1,13 +1,9 @@
 use rusqlite::params;
-use serde::de;
 use crate::db::connect;
 use crate::models::*;
 use bcrypt::{hash, verify, DEFAULT_COST};
 use crate::lib::check::check_db;
-use aes::cipher::{generic_array::GenericArray, KeyInit};
-use aes::Aes256;
-use block_padding::generic_array::functional::FunctionalSequence;
-use crate::lib::encrypt::{encrypt, decrypt};
+use crate::lib::encrypt::{encrypt, decrypt, new_key};
 
 #[tauri::command]
 pub fn verify_db() -> bool{
@@ -84,19 +80,7 @@ pub fn login(password: String) -> bool{
 pub fn create_password(new_password: Password, password: String) -> bool{
     let conn = connect();
 
-    let mut key = GenericArray::from([0u8; 32]);
-    let password_bytes = password.as_bytes();
-    let mut index = 0;
-
-    key = key.map(|mut x|{
-        if password_bytes.len() > index{
-            x = password_bytes[index];
-            index += 1;
-        }
-        x
-    });
-
-    let cipher = Aes256::new(&key);
+    let cipher = new_key(&password);
 
     let user = encrypt(&new_password.user, &cipher);
     let password = encrypt(&new_password.password, &cipher);
@@ -131,19 +115,7 @@ pub fn get_passwords() -> Vec<Password>{
 
 #[tauri::command]
 pub fn descrypt_data(password: String, data: String) -> String{
-    let mut key = GenericArray::from([0u8; 32]);
-    let password_bytes = password.as_bytes();
-    let mut index = 0;
-
-    key = key.map(|mut x|{
-        if password_bytes.len() > index{
-            x = password_bytes[index];
-            index += 1;
-        }
-        x
-    });
-
-    let cipher = Aes256::new(&key);
+    let cipher = new_key(&password);
 
     decrypt(&data, &cipher)
 }
@@ -152,20 +124,7 @@ pub fn descrypt_data(password: String, data: String) -> String{
 pub fn get_password_by_id(id: i32, password: String) -> Password{
     let conn = connect();
 
-    let mut key = GenericArray::from([0u8; 32]);
-
-    let password_bytes = password.as_bytes();
-    let mut index = 0;
-
-    key = key.map(|mut x|{
-        if password_bytes.len() > index{
-            x = password_bytes[index];
-            index += 1;
-        }
-        x
-    });
-
-    let cipher = Aes256::new(&key);
+    let cipher = new_key(&password);
 
     let mut stmt = conn.prepare("SELECT id, name, icon, user, user_length, password, password_length FROM password WHERE id = ?1").map_err(|err| format!("the error is {}", err.to_string())).expect("error while preparing statement");
 
@@ -188,19 +147,7 @@ pub fn get_password_by_id(id: i32, password: String) -> Password{
 pub fn update_password(update_password: Password, password: String){
     let conn = connect();
 
-    let mut key = GenericArray::from([0u8; 32]);
-    let password_bytes = password.as_bytes();
-    let mut index = 0;
-
-    key = key.map(|mut x|{
-        if password_bytes.len() > index{
-            x = password_bytes[index];
-            index += 1;
-        }
-        x
-    });
-
-    let cipher = Aes256::new(&key);
+    let cipher = new_key(&password);
 
     let user = encrypt(&update_password.user, &cipher);
     let password = encrypt(&update_password.password, &cipher);

@@ -1,7 +1,27 @@
-use aes::cipher::generic_array::GenericArray;
-use aes::cipher::{BlockEncrypt, BlockDecrypt};
+use aes::cipher::{generic_array::GenericArray, KeyInit};
+use aes::cipher::{BlockDecrypt, BlockEncrypt};
 use aes::Aes256;
 use hex::{decode, encode};
+use block_padding::generic_array::functional::FunctionalSequence;
+
+
+pub fn new_key(password: &String) -> Aes256 {
+    let mut key = GenericArray::from([0u8; 32]);
+    let password_bytes = password.as_bytes();
+    let mut index = 0;
+
+    key = key.map(|mut x|{
+        if password_bytes.len() > index{
+            x = password_bytes[index];
+            index += 1;
+        }
+        x
+    });
+
+    let cipher = Aes256::new(&key);
+
+    cipher
+}
 
 pub fn encrypt(data: &String, cipher: &Aes256) -> String{
     let data_bytes = data.as_bytes();

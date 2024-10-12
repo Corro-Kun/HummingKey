@@ -32,6 +32,14 @@
             toast.error('Todos los campos son obligatorios');
             return
         }
+        if(data.password.length > 32){
+            toast.error('La contraseña no puede ser mayor a 32 caracteres');
+            return
+        }
+        if(data.user.length > 32){
+            toast.error('El usuario/email no puede ser mayor a 32 caracteres');
+            return
+        }
         if (data.icon === 0) {
             data.icon = 1;
         }
