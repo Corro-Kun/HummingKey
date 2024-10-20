@@ -1,16 +1,16 @@
 <script>
     import {onMount} from 'svelte';
-
-    let img = ""
+    import {profileImg} from '@/store/profile.ts'
 
     onMount(async ()=>{
 		const { invoke } = await import('@tauri-apps/api');
-		img = await invoke("get_image_user");
+		const img = await invoke("get_image_user");
+        profileImg.set(img);
 	});
 </script>
 
 <picture out:fade|keepUpdatingState >
-    <img src={img} alt="profile" loading="lazy" >
+    <img src={$profileImg} alt="profile" loading="lazy" >
 </picture>
 
 <style>

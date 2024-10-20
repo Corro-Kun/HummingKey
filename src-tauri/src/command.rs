@@ -161,3 +161,49 @@ pub fn delete_password(id: i32){
 
     let _ = conn.execute("DELETE FROM password WHERE id = ?1", params![id]).expect("error while deleting password");
 }
+
+#[tauri::command]
+pub fn update_user_without_password(user: User){
+    let conn = connect();
+
+    let _ = conn.execute("UPDATE user SET name = ?1, image = ?2", params![user.name, user.image]).expect("error while updating user");
+}
+
+#[tauri::command]
+pub fn update_user_with_password(user: User, password_now: String){
+    let conn = connect();
+
+    let hashed_password = hash(&user.password, DEFAULT_COST).unwrap();
+
+    let _ = conn.execute("UPDATE user SET name = ?1, password = ?2, image = ?3", params![user.name, hashed_password, user.image]).expect("error while updating user");
+
+    let mut stmt = conn.prepare("SELECT id, name, icon, user, user_length, password, password_length FROM password").map_err(|err| format!("the error is {}", err.to_string())).expect("error while preparing statement");
+    let mut passwords = Vec::new();
+
+    stmt.query_map([], |row| {
+        Ok(Password{
+            id: row.get(0)?,
+            name: row.get(1)?,
+            icon: row.get(2)?,
+            user: row.get(3)?,
+            user_length: row.get(4)?,
+            password: row.get(5)?,
+            password_length: row.get(6)?
+        })
+    }).unwrap().for_each(|password| {
+        passwords.push(password.unwrap());
+    });
+
+    let cipher = new_key(&password_now);
+    let cipher_new = new_key(&user.password);
+
+    for password_array in passwords{
+        let user_desc = decrypt(&password_array.user, &cipher);
+        let password_desc = decrypt(&password_array.password, &cipher);
+        let user = encrypt(&user_desc, &cipher_new);
+        let password = encrypt(&password_desc, &cipher_new);
+
+        let _ = conn.execute("UPDATE password SET user = ?1, password = ?2 WHERE id = ?3", params![user, password, password_array.id]).expect("error while updating password");
+    }
+
+}

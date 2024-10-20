@@ -1,23 +1,9 @@
 ---
 import LayoutHome from '@/layouts/LayoutHome.astro';
+import UpdateUser from '@/components/UpdateUser.svelte';
 ---
 
 <LayoutHome title="User" profilePage >
+    <UpdateUser client:load />
 </Layout>
-
-<style>
-    main{
-        display: flex;
-        padding: 10px;
-        height: 100vh;
-        align-items: center;
-        justify-content: space-between;
-        flex-direction: column;
-        overflow: hidden;
-    }
-    div{
-        width: 100%;
-        display: flex;
-        justify-content: right;
-    }
-</style>
+	

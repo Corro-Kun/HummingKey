@@ -27,7 +27,9 @@
         let result2 = await invoke("create_password", {newPassword: $newPassword, password: password});
 
         if(!result2){
-            // trabajando en esto
+            toast.error('Error al crear la contraseña');
+            loading = 0;
+            return
         }
 
         request.set(false);

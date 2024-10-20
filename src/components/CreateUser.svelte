@@ -9,12 +9,25 @@
 		password: ""
 	}
 
+	let passwords = {
+		password: "",
+		confirmPassword: ""
+	}
+
 	let loading = false;
 
 	async function HandleSubmit(e){
 		e.preventDefault();
 
 		loading = true;
+
+		if (passwords.password !== passwords.confirmPassword){
+			toast.error("Las contraseñas no coinciden");
+			loading = false;
+			return;
+		}
+
+		data.password = passwords.password;
 
 		if(data.name === "" || data.password === ""){
 			toast.error("Por favor, rellene todos los campos");
@@ -45,7 +58,7 @@
 		const filePath = await open({
     		multiple: false,
     		filters: [
-      			{ name: 'Image', extensions: ['png', 'jpg','jpeg', 'gif'] }, // Filtrar tipos de archivo
+      			{ name: 'Image', extensions: ['png', 'jpg','jpeg', 'gif'] }, 
     		],
   		});
 
@@ -66,8 +79,12 @@
         <label for="user">Usuario</label>
     </div>
     <div class="Inputs">
-        <input bind:value={data.password} id="pass" type="password" autoComplete="off" required />
+        <input bind:value={passwords.password} id="pass" type="password" autoComplete="off" required />
         <label for="pass">Contraseña</label>
+    </div>
+	<div class="Inputs">
+        <input bind:value={passwords.confirmPassword} id="pass" type="password" autoComplete="off" required />
+        <label for="pass">Confirmar Contraseña</label>
     </div>
     <div class="Button" >
         <button disabled={loading} >
@@ -83,8 +100,8 @@
 <style>
     .new{
 		display: flex;
+		padding: 20px 0;
 		width: 330px;
-		height: 410px;
 		background: transparent;
 		flex-direction: column;
 		justify-content: center;
@@ -105,6 +122,9 @@
 		border-radius: 50%;
         border: 2px solid var(--Color_Primary);
         cursor: pointer;
+	}
+	.new picture:hover{
+		border: 2px solid var(--Color_Secondary);
 	}
 	.new picture img{
 		height: 140px;
