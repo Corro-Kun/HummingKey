@@ -80,6 +80,9 @@
 
         loading = 0;
         password = "";
+	newPassword.password = "";
+	newPassword.confirmPassword = "";
+
 
         toast.success('Usuario actualizado con éxito');
     }
