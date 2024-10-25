@@ -1,6 +1,7 @@
 <script>
     import {onMount} from 'svelte';
     import {profileImg} from '@/store/profile.ts'
+    import {navigate} from 'astro:transitions/client';
 
     onMount(async ()=>{
 		const { invoke } = await import('@tauri-apps/api');
@@ -9,7 +10,7 @@
 	});
 </script>
 
-<picture out:fade|keepUpdatingState >
+<picture out:fade|keepUpdatingState on:click={()=> navigate("/user")} >
     <img src={$profileImg} alt="profile" loading="lazy" >
 </picture>
 

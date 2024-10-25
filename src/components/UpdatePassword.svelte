@@ -99,7 +99,13 @@
     <input type="password" bind:value={password} >
     <div>
         <button class="cancel" on:click={()=> navigate("/home")} >Cancelar</button>
-        <button class="confirm" on:click={getPassword} >Confirmar</button>
+        {#if loading === 0}
+            <button class="confirm" on:click={getPassword} >Confirmar</button>
+        {:else if loading === 1}
+            <button class="cancel" >
+                <Loading />
+            </button>
+        {/if}
     </div>
 </div>
 {:else}
