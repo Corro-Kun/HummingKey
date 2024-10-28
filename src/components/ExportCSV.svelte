@@ -1,6 +1,15 @@
 <script>
-    function ImportCSV() {
-     
+    async function ImportCSV() {
+        const { open } = await import('@tauri-apps/api/dialog');
+
+		const filePath = await open({
+    		multiple: false,
+    		filters: [
+      			{ name: 'Copia', extensions: ['csv',] }, 
+    		],
+  		});
+
+        console.log(filePath);
     }
     function ExportCSV() {
         var data = "Nombre,Edad\nJuan,30\nAna,25";
