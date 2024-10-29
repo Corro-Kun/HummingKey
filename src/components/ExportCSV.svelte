@@ -1,6 +1,7 @@
 <script>
     async function ImportCSV() {
         const { open } = await import('@tauri-apps/api/dialog');
+        const { readTextFile } = await import('@tauri-apps/api/fs');
 
 		const filePath = await open({
     		multiple: false,
@@ -9,7 +10,8 @@
     		],
   		});
 
-        console.log(filePath);
+        const data = await readTextFile(filePath);
+        console.log(data);
     }
     function ExportCSV() {
         var data = "Nombre,Edad\nJuan,30\nAna,25";
