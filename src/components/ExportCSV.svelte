@@ -23,9 +23,8 @@
             }
             data.push(obj);
         }
-
-        console.log(data);
     }
+
     function ExportCSV() {
         var data = "Nombre;Edad\nJuan;30\nAna;25";
         var uriContent = "data:text/csv;charset=utf-8," + encodeURIComponent(data);
