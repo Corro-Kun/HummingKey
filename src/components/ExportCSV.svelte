@@ -1,4 +1,5 @@
 <script>
+    let data = [];
     async function ImportCSV() {
         const { open } = await import('@tauri-apps/api/dialog');
         const { readTextFile } = await import('@tauri-apps/api/fs');
@@ -10,11 +11,23 @@
     		],
   		});
 
-        const data = await readTextFile(filePath);
+        const text = await readTextFile(filePath);
+        const rows = text.split('\n');
+
+        for (let i = 1; i < rows.length; i++) {
+            const columns = rows[i].split(';');
+            let obj = {};
+            
+            for (let j = 0; j < columns.length; j++) {
+                obj[rows[0].split(';')[j]] = columns[j];
+            }
+            data.push(obj);
+        }
+
         console.log(data);
     }
     function ExportCSV() {
-        var data = "Nombre,Edad\nJuan,30\nAna,25";
+        var data = "Nombre;Edad\nJuan;30\nAna;25";
         var uriContent = "data:text/csv;charset=utf-8," + encodeURIComponent(data);
         var myWindow = window.open(uriContent, "Export CSV");
         myWindow.focus();
