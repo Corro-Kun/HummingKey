@@ -1,5 +1,13 @@
 <script>
-    let data = [];
+    let data = [{
+        Nombre: 'Juan',
+        Edad: 30
+    }, {
+        Nombre: 'Ana',
+        Edad: 25
+    }];
+
+
     async function ImportCSV() {
         const { open } = await import('@tauri-apps/api/dialog');
         const { readTextFile } = await import('@tauri-apps/api/fs');
@@ -25,11 +33,31 @@
         }
     }
 
-    function ExportCSV() {
-        var data = "Nombre;Edad\nJuan;30\nAna;25";
-        var uriContent = "data:text/csv;charset=utf-8," + encodeURIComponent(data);
-        var myWindow = window.open(uriContent, "Export CSV");
-        myWindow.focus();
+    async function ExportCSV(){
+        const { invoke } = await import('@tauri-apps/api');
+        data = await invoke("get_passwords");
+
+        console.log(data);
+
+        let dataText = "data:text/csv;charset=utf-8,id;name;icon;user;user_length;password;password_length\n";
+
+        data.map((item)=>{
+            dataText += `${item.id};${item.name};${item.icon};${item.user};${item.user_length};${item.password};${item.password_length}\n`;
+        })
+
+        const encodedUri = encodeURI(dataText);
+
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "contraseñas.csv");
+
+        document.body.appendChild(link);
+
+        link.click();
+
+        document.body.removeChild(link);
+
+        data = [];
     }
 </script>
 
