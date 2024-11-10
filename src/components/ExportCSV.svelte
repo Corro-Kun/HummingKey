@@ -1,21 +1,31 @@
 <script>
-    let data = [{
-        Nombre: 'Juan',
-        Edad: 30
-    }, {
-        Nombre: 'Ana',
-        Edad: 25
-    }];
+    import {send, receive} from '@/lib/transition.js'
+  import toast from 'svelte-french-toast';
 
+    let data = [];
+
+    let check = {
+        Import: false,
+        ValidateImport: false,
+        Export: false,
+        ValidateExport: false,
+    }
+
+    let loading = 0;
+
+    let passwords = {
+        password: "",
+        FilePassword: ""
+    }
 
     async function ImportCSV() {
         const { open } = await import('@tauri-apps/api/dialog');
-        const { readTextFile } = await import('@tauri-apps/api/fs');
+        const { readTextFile} = await import('@tauri-apps/api/fs');
 
 		const filePath = await open({
     		multiple: false,
     		filters: [
-      			{ name: 'Copia', extensions: ['csv',] }, 
+      			{ name: 'contraseñas', extensions: ['csv',] }, 
     		],
   		});
 
@@ -31,13 +41,26 @@
             }
             data.push(obj);
         }
+
+        check.ValidateImport = true;
     }
 
     async function ExportCSV(){
-        const { invoke } = await import('@tauri-apps/api');
-        data = await invoke("get_passwords");
+        loading = 1;
 
-        console.log(data);
+        const { invoke } = await import('@tauri-apps/api');
+
+        let result = await invoke("login", {password: passwords.password});
+
+		if(!result){
+            toast.error('Contraseña incorrecta');
+            loading = 0;
+            return
+		}
+
+        passwords.password = "";
+
+        data = await invoke("get_passwords");
 
         let dataText = "data:text/csv;charset=utf-8,id;name;icon;user;user_length;password;password_length\n";
 
@@ -58,20 +81,76 @@
         document.body.removeChild(link);
 
         data = [];
+        loading = 0;
     }
 </script>
 
 <div class="main" >
     <div class="menu" >
-        <button on:click={ExportCSV} >Exportar</button>
-        <button on:click={ImportCSV} >Importar</button>
+        <button on:click={()=> {
+            check.Import = !check.Import
+            check.Export = false
+            check.ValidateImport = false
+            data = [];
+        }} >Importar</button>
+        <button on:click={()=> {
+            check.Export = !check.Export
+            check.Import = false
+            check.ValidateExport = false
+            data = [];
+        }} >Exportar</button>
     </div>
+    {#if check.Import}
+    <div class="import"
+        in:receive
+        out:send
+    >
+        <p>Selecione un archivo CSV</p>
+        <button on:click={ImportCSV} >Archivo</button>
+        {#if check.ValidateImport}
+            <p style="margin-bottom: 5px;" >Se importaron {data.length} contraseñas</p>
+            <div class="input" >
+                <label for="">Contraseña del Archivo</label>
+                <input type="password" bind:value={passwords.FilePassword} >
+            </div>
+            <div class="input" >
+                <label for="">Tu Contraseña</label>
+                <input type="password" bind:value={passwords.password} >
+            </div>
+            <button>Guardar</button>
+        {/if}
+    </div>
+    {/if}
+    {#if check.Export}
+    <div class="confirm" 
+        in:receive
+        out:send
+    >
+        <h2>Escribe tu contraseña</h2>
+        <input type="password"
+            bind:value={passwords.password} 
+            on:keypress={(e)=> {
+                if(e.code === "Enter"){
+                    ExportCSV();
+                }
+            }} >
+        <div>
+            {#if loading === 1}
+                <button disabled >Cargando...</button>
+            {:else}
+                <button on:click={ExportCSV} >Confirmar</button>
+            {/if}
+        </div>
+    </div>
+    {/if}
 </div>
 
 <style>
     .main {
         display: flex;
         width: 95%;
+        justify-content: space-between;
+        align-items: center;
     }
     .menu{
         display: flex;
@@ -86,7 +165,7 @@
         background: transparent;
         backdrop-filter: blur(5px);
     }
-    .menu button{
+    button{
         padding: 8px 15px;
         background: var(--Color_Primary);
         color: var(--Color_Text);
@@ -95,7 +174,71 @@
         cursor: pointer;
         transition: .3s;
     }
-    .menu button:hover{
+    button:hover{
         background: var(--Color_Secondary);
+    }
+    .import{
+        padding: 10px;
+        display: flex;
+        width: 300px;
+        gap: 10px;
+        color: var(--Color_Text);
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        background: transparent;
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+        border: 2px solid var(--Color_Primary);
+        transition: .3s;
+    }
+    .input{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .input label{
+        color: var(--Color_Text);
+    }
+    .input input{
+        width: 100%;
+        margin-top: 2px;
+        padding: 2px;
+        font-size: 17px;
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid var(--Color_Primary);
+        border-radius: 5px;
+        outline: none;
+        color: var(--Color_Text_Hover);
+    }
+    .confirm{
+        display: flex;
+        padding: 10px;
+        background: transparent;
+        backdrop-filter: blur(10px);
+        border: 2px solid var(--Color_Primary);
+        border-radius: 8px;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+    .confirm h2{
+		color: var(--Color_Text);
+	}
+    .confirm input{
+        background: transparent;
+		border: none;
+        border-bottom: 2px solid var(--Color_Primary);
+		outline: none;
+		font-size: 1em;
+		color: var(--Color_Text);
+		font-weight: 600;
+		padding: 0 35px 0 5px;
+    }
+    .confirm div{
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 </style>

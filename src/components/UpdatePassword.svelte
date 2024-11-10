@@ -83,7 +83,7 @@
         data.user_length = data.user.length;
         data.password_length = data.password.length;
 
-        let result = await invoke("update_password", {updatePassword: data, password: password});
+        await invoke("update_password", {updatePassword: data, password: password});
 
         toast.success('Contraseña actualizada correctamente');
 
