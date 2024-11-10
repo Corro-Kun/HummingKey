@@ -207,3 +207,21 @@ pub fn update_user_with_password(user: User, password_now: String){
     }
 
 }
+
+#[tauri::command]
+pub fn import_passwords(passwords: Vec<Password>, password_current: String, file_password: String){
+    let conn = connect();
+
+    let cipher = new_key(&password_current);
+    let cipher_file = new_key(&file_password);
+
+    for password in passwords{
+        let mut user = decrypt(&password.user, &cipher_file);
+        let mut password_insert = decrypt(&password.password, &cipher_file);
+
+        user = encrypt(&user, &cipher);
+        password_insert = encrypt(&password_insert, &cipher);
+
+        let _ = conn.execute("INSERT INTO password (name, icon, user, user_length, password, password_length) VALUES (?1, ?2, ?3, ?4, ?5, ?6)", params![password.name, password.icon, user, password.user_length, password_insert, password.password_length]).expect("error while inserting password");
+    }
+}

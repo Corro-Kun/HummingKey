@@ -32,6 +32,11 @@
         const text = await readTextFile(filePath);
         const rows = text.split('\n');
 
+        if(rows[0].includes('id;name;icon;user;user_length;password;password_length') === false){
+            toast.error('Archivo CSV no valido');
+            return
+        }
+
         for (let i = 1; i < rows.length; i++) {
             const columns = rows[i].split(';');
             let obj = {};
@@ -43,6 +48,7 @@
         }
 
         check.ValidateImport = true;
+        toast('Contraseñas importadas, por favor digital la contraseña del archivo sin errores');
     }
 
     async function ExportCSV(){
@@ -62,10 +68,10 @@
 
         data = await invoke("get_passwords");
 
-        let dataText = "data:text/csv;charset=utf-8,id;name;icon;user;user_length;password;password_length\n";
+        let dataText = "data:text/csv;charset=utf-8,id;name;icon;user;user_length;password;password_length";
 
         data.map((item)=>{
-            dataText += `${item.id};${item.name};${item.icon};${item.user};${item.user_length};${item.password};${item.password_length}\n`;
+            dataText += `\n${Number(item.id)};${item.name};${item.icon};${item.user};${item.user_length};${item.password};${item.password_length}`;
         })
 
         const encodedUri = encodeURI(dataText);
@@ -83,32 +89,69 @@
         data = [];
         loading = 0;
     }
+
+    async function SavePasswords(){
+        const { invoke } = await import('@tauri-apps/api');
+
+        loading = 1;
+
+        let result = await invoke("login", {password: passwords.password});
+
+        if(!result){
+            toast.error('Contraseña incorrecta');
+            loading = 0;
+            return
+		}
+
+        data.forEach((item)=>{
+            item.id = Number(item.id);
+            item.icon = Number(item.icon);
+            item.user_length = Number(item.user_length);
+            item.password_length = Number(item.password_length);
+        })
+
+        try {
+            await invoke("import_passwords", {passwords: data, passwordCurrent: passwords.password, filePassword: passwords.FilePassword});
+        } catch (error) {
+            toast.error('Error al guardar las contraseñas');
+            loading = 0;
+            return
+        } 
+
+        loading = 0;
+        toast.success('Contraseñas guardadas');
+
+        data = [];
+        passwords.password = "";
+        passwords.FilePassword = "";
+        check.Import = false;
+        check.ValidateImport = false;
+    }
+
 </script>
 
 <div class="main" >
     <div class="menu" >
         <button on:click={()=> {
-            check.Import = !check.Import
             check.Export = false
+            check.Import = !check.Import
             check.ValidateImport = false
             data = [];
         }} >Importar</button>
         <button on:click={()=> {
-            check.Export = !check.Export
             check.Import = false
+            check.Export = !check.Export
             check.ValidateExport = false
             data = [];
         }} >Exportar</button>
     </div>
     {#if check.Import}
     <div class="import"
-        in:receive
-        out:send
     >
         <p>Selecione un archivo CSV</p>
         <button on:click={ImportCSV} >Archivo</button>
         {#if check.ValidateImport}
-            <p style="margin-bottom: 5px;" >Se importaron {data.length} contraseñas</p>
+            <p style="margin-bottom: 5px;" >Contraseñas que se importan: {data.length}</p>
             <div class="input" >
                 <label for="">Contraseña del Archivo</label>
                 <input type="password" bind:value={passwords.FilePassword} >
@@ -117,14 +160,16 @@
                 <label for="">Tu Contraseña</label>
                 <input type="password" bind:value={passwords.password} >
             </div>
-            <button>Guardar</button>
+            {#if loading === 1}
+                <button disabled >Cargando...</button>
+            {:else}
+                <button on:click={SavePasswords} >Guardar</button>
+            {/if}
         {/if}
     </div>
     {/if}
     {#if check.Export}
     <div class="confirm" 
-        in:receive
-        out:send
     >
         <h2>Escribe tu contraseña</h2>
         <input type="password"
