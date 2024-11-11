@@ -1,11 +1,11 @@
 [package]
-name = "app"
-version = "0.1.0"
-description = "A Tauri App"
-authors = ["you"]
-license = ""
-repository = ""
-default-run = "app"
+name = "HummingKey"
+version = "1.0.0"
+description = "A local password manager"
+authors = ["Kevin Stiven Pava Correales"]
+license = "MIT License"
+repository = "https://github.com/Corro-Kun/HummingKey.git"
+default-run = "HummingKey"
 edition = "2021"
 rust-version = "1.60"
 
