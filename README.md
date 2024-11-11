@@ -38,13 +38,13 @@ Start the app
 
 ## Screenshots
 
-<img src="https://res.cloudinary.com/daqrkk4sr/image/upload/store-kun/HummingKey/qcq6guvxsozolvzmc7ou" alt="App Screenshot">
+<img src="captures/capture1.webp" alt="App Screenshot">
 <br>
 <br>
-<img src="https://res.cloudinary.com/daqrkk4sr/image/upload/store-kun/HummingKey/ljjiimfawgdzp2s6srvd" alt="App Screenshot">
+<img src="captures/capture2.webp" alt="App Screenshot">
 <br>
 <br>
-<img src="https://res.cloudinary.com/daqrkk4sr/image/upload/store-kun/HummingKey/fupigbtctrxngmgpiegk" alt="App Screenshot">
+<img src="captures/capture3.webp" alt="App Screenshot">
 
 ## Color Reference
 
