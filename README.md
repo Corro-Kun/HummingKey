@@ -59,7 +59,7 @@ Start the app
 
 Contributions are always welcome!
 
-See [CONTRIBUTING](CONTRIBUTING) for ways to get started.
+See [CONTRIBUTING](CONTRIBUTING.md) for ways to get started.
 
 # Thank you for reading
 <p align="center">~ Corro-Kun ~</p>

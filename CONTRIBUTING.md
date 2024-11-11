@@ -4,7 +4,7 @@ Welcome to my project! We appreciate your interest in contributing. Before you g
 
 ## Code of Conduct
 
-This project has a [Code of Conduct](CODE_OF_CONDUCT). I expect everyone who participates to agree with it. Read the code to learn what I expect from contributors.
+This project has a [Code of Conduct](CODE_OF_CONDUCT.md). I expect everyone who participates to agree with it. Read the code to learn what I expect from contributors.
 
 ## installation requirements
 
