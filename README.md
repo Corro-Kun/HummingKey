@@ -15,7 +15,7 @@ A local password manager
 Clone the project
 
 ```bash
-  git clone https://github.com/Corro-Kun/HummingKey
+  git clone https://github.com/Corro-Kun/HummingKey.git
 ```
 
 Go to the project directory
@@ -30,7 +30,7 @@ Install dependencies
   npm install
 ```
 
-Start the server
+Start the app
 
 ```bash
   npm run tauri dev
@@ -38,9 +38,13 @@ Start the server
 
 ## Screenshots
 
-![App Screenshot](https://res.cloudinary.com/daqrkk4sr/image/upload/store-kun/HummingKey/qcq6guvxsozolvzmc7ou)
-![App Screenshot](https://res.cloudinary.com/daqrkk4sr/image/upload/store-kun/HummingKey/ljjiimfawgdzp2s6srvd)
-![App Screenshot](https://res.cloudinary.com/daqrkk4sr/image/upload/store-kun/HummingKey/fupigbtctrxngmgpiegk)
+<img src="https://res.cloudinary.com/daqrkk4sr/image/upload/store-kun/HummingKey/qcq6guvxsozolvzmc7ou" alt="App Screenshot">
+<br>
+<br>
+<img src="https://res.cloudinary.com/daqrkk4sr/image/upload/store-kun/HummingKey/ljjiimfawgdzp2s6srvd" alt="App Screenshot">
+<br>
+<br>
+<img src="https://res.cloudinary.com/daqrkk4sr/image/upload/store-kun/HummingKey/fupigbtctrxngmgpiegk" alt="App Screenshot">
 
 ## Color Reference
 
@@ -51,4 +55,11 @@ Start the server
 | Color Text | ![#c1dff7](https://via.placeholder.com/10/c1dff7?text=+) #c1dff7 |
 | Color Text Hover | ![#f7f7f7](https://via.placeholder.com/10/f7f7f7?text=+) #f7f7f7 |
 
+## Contributing
+
+Contributions are always welcome!
+
+See [CONTRIBUTING](CONTRIBUTING) for ways to get started.
+
+# Thank you for reading
 <p align="center">~ Corro-Kun ~</p>
