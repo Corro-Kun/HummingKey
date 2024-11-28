@@ -2,21 +2,21 @@
     import {send, receive} from '@/lib/transition.js'
   import toast from 'svelte-french-toast';
 
-    let data = [];
+    let data = $state([]);
 
-    let check = {
+    let check = $state({
         Import: false,
         ValidateImport: false,
         Export: false,
         ValidateExport: false,
-    }
+    })
 
-    let loading = 0;
+    let loading = $state(0);
 
-    let passwords = {
+    let passwords = $state({
         password: "",
         FilePassword: ""
-    }
+    })
 
     async function ImportCSV() {
         const { open } = await import('@tauri-apps/api/dialog');
@@ -132,13 +132,13 @@
 
 <div class="main" >
     <div class="menu" >
-        <button on:click={()=> {
+        <button onclick={()=> {
             check.Export = false
             check.Import = !check.Import
             check.ValidateImport = false
             data = [];
         }} >Importar</button>
-        <button on:click={()=> {
+        <button onclick={()=> {
             check.Import = false
             check.Export = !check.Export
             check.ValidateExport = false
@@ -149,7 +149,7 @@
     <div class="import"
     >
         <p>Selecione un archivo CSV</p>
-        <button on:click={ImportCSV} >Archivo</button>
+        <button onclick={ImportCSV} >Archivo</button>
         {#if check.ValidateImport}
             <p style="margin-bottom: 5px;" >Contraseñas que se importan: {data.length}</p>
             <div class="input" >
@@ -163,7 +163,7 @@
             {#if loading === 1}
                 <button disabled >Cargando...</button>
             {:else}
-                <button on:click={SavePasswords} >Guardar</button>
+                <button onclick={SavePasswords} >Guardar</button>
             {/if}
         {/if}
     </div>
@@ -174,7 +174,7 @@
         <h2>Escribe tu contraseña</h2>
         <input type="password"
             bind:value={passwords.password} 
-            on:keypress={(e)=> {
+            onkeypress={(e)=> {
                 if(e.code === "Enter"){
                     ExportCSV();
                 }
@@ -183,7 +183,7 @@
             {#if loading === 1}
                 <button disabled >Cargando...</button>
             {:else}
-                <button on:click={ExportCSV} >Confirmar</button>
+                <button onclick={ExportCSV} >Confirmar</button>
             {/if}
         </div>
     </div>

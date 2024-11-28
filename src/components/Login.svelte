@@ -4,13 +4,13 @@
     import toast from 'svelte-french-toast';
     import { error } from 'node_modules/astro/dist/core/logger/core';
 
-	let user = "";
+	let user = $state("");
 
-	let password = "";
+	let password = $state("");
 
-	let img = "";
+	let img = $state("");
 
-	let loading = false;
+	let loading = $state(false);
 
 	onMount(async ()=>{
 		const { invoke } = await import('@tauri-apps/api');
@@ -35,7 +35,7 @@
     }
 </script>
 
-<form class="login" on:submit={(e)=> toast.promise(HandleSubmit(e),{
+<form class="login" onsubmit={(e)=> toast.promise(HandleSubmit(e),{
 	loading: 'Iniciando sesión...',
 	success: `Bienvenido ${user}`,
 	error: 'Contraseña incorrecta'

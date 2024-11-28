@@ -10,7 +10,7 @@
 	});
 </script>
 
-<picture out:fade|keepUpdatingState on:click={()=> navigate("/user")} >
+<picture out:fade|keepUpdatingState onclick={()=> navigate("/user")} >
     <img src={$profileImg} alt="profile" loading="lazy" >
 </picture>
 

@@ -11,13 +11,13 @@
     "tauri": "tauri"
   },
   "dependencies": {
-    "@astrojs/check": "0.9.3",
-    "@astrojs/svelte": "5.7.0",
+    "@astrojs/check": "0.9.4",
+    "@astrojs/svelte": "6.0.2",
     "@tauri-apps/api": "1.6.0",
-    "astro": "4.14.5",
-    "svelte": "4.2.19",
-    "svelte-french-toast": "^1.2.0",
-    "typescript": "5.5.4"
+    "astro": "4.16.16",
+    "svelte": "5.2.11",
+    "svelte-french-toast": "1.2.0",
+    "typescript": "5.7.2"
   },
   "devDependencies": {
     "@tauri-apps/cli": "1.6.1"

@@ -7,9 +7,9 @@
     request.set(false);
     newPassword.set({});
 
-    let password = "";
+    let password = $state("");
 
-    let loading = 0;
+    let loading = $state(0);
 
     async function save() {
         loading = 1;
@@ -51,7 +51,7 @@
 >
     <h2>Escribe tu contraseña</h2>
     <input bind:value={password} type="password" 
-        on:keypress={(e)=> {
+        onkeypress={(e)=> {
             if(e.code === "Enter"){
                 save();
             }
@@ -60,7 +60,7 @@
         {#if loading === 1}
             <button disabled >Cargando...</button>
         {:else}
-            <button on:click={save} >Confirmar</button>
+            <button onclick={save} >Confirmar</button>
         {/if}
     </div>
 </div>

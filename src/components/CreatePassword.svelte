@@ -19,12 +19,12 @@
     import toast from "svelte-french-toast";
     import Loading from '@/components/icons/Loading.svelte';
 
-    let data = {
+    let data = $state({
         name: "",
         icon: 0,
         user: "",
         password: ""
-    }
+    })
 
     function save(e){
         e.preventDefault();
@@ -51,7 +51,7 @@
     }
 
 </script>
-<form on:submit={save} >
+<form onsubmit={save} >
     <div class="title" >
         <h1>Crea tu nueva contraseña</h1>
     </div>
@@ -62,52 +62,52 @@
     <div class="icon" >
         <h2>Selecciona un icono</h2>
         <div class="icons" >
-            <section class={data.icon === 1 ? 'active' : ''} on:click={()=> data.icon = 1} >
+            <section class={data.icon === 1 ? 'active' : ''} onclick={()=> data.icon = 1} >
                 <Box />
             </section>
-            <section class={data.icon === 2 ? 'active' : ''} on:click={()=> data.icon = 2} >
+            <section class={data.icon === 2 ? 'active' : ''} onclick={()=> data.icon = 2} >
                 <Book />
             </section>
-            <section class={data.icon === 3 ? 'active' : ''} on:click={()=> data.icon = 3} >
+            <section class={data.icon === 3 ? 'active' : ''} onclick={()=> data.icon = 3} >
                 <Store />
             </section>
-            <section class={data.icon === 4 ? 'active' : ''} on:click={()=> data.icon = 4} >
+            <section class={data.icon === 4 ? 'active' : ''} onclick={()=> data.icon = 4} >
                 <Work />
             </section>
-            <section class={data.icon === 5 ? 'active' : ''} on:click={()=> data.icon = 5} >
+            <section class={data.icon === 5 ? 'active' : ''} onclick={()=> data.icon = 5} >
                 <Game />
             </section>
-            <section class={data.icon === 6 ? 'active' : ''} on:click={()=> data.icon = 6} >
+            <section class={data.icon === 6 ? 'active' : ''} onclick={()=> data.icon = 6} >
                 <Cloudy />
             </section>
-            <section class={data.icon === 7 ? 'active' : ''} on:click={()=> data.icon = 7} >
+            <section class={data.icon === 7 ? 'active' : ''} onclick={()=> data.icon = 7} >
                 <Google />
             </section>
-            <section class={data.icon === 8 ? 'active' : ''} on:click={()=> data.icon = 8} >
+            <section class={data.icon === 8 ? 'active' : ''} onclick={()=> data.icon = 8} >
                 <Windows />
             </section>
-            <section class={data.icon === 9 ? 'active' : ''} on:click={()=> data.icon = 9} >
+            <section class={data.icon === 9 ? 'active' : ''} onclick={()=> data.icon = 9} >
                 <Github />
             </section>
-            <section class={data.icon === 10 ? 'active' : ''} on:click={()=> data.icon = 10} >
+            <section class={data.icon === 10 ? 'active' : ''} onclick={()=> data.icon = 10} >
                 <Facebook />
             </section>
-            <section class={data.icon === 11 ? 'active' : ''} on:click={()=> data.icon = 11} >
+            <section class={data.icon === 11 ? 'active' : ''} onclick={()=> data.icon = 11} >
                 <X />
             </section>
-            <section class={data.icon === 12 ? 'active' : ''} on:click={()=> data.icon = 12} >
+            <section class={data.icon === 12 ? 'active' : ''} onclick={()=> data.icon = 12} >
                 <Reddit />
             </section>
-            <section class={data.icon === 13 ? 'active' : ''} on:click={()=> data.icon = 13} >
+            <section class={data.icon === 13 ? 'active' : ''} onclick={()=> data.icon = 13} >
                 <Spotify />
             </section>
-            <section class={data.icon === 14 ? 'active' : ''} on:click={()=> data.icon = 14} >
+            <section class={data.icon === 14 ? 'active' : ''} onclick={()=> data.icon = 14} >
                 <Netflix />
             </section>
-            <section class={data.icon === 15 ? 'active' : ''} on:click={()=> data.icon = 15} >
+            <section class={data.icon === 15 ? 'active' : ''} onclick={()=> data.icon = 15} >
                 <Discord />
             </section>
-            <section class={data.icon === 16 ? 'active' : ''} on:click={()=> data.icon = 16} >
+            <section class={data.icon === 16 ? 'active' : ''} onclick={()=> data.icon = 16} >
                 <Steam />
             </section>
         </div>

@@ -3,18 +3,18 @@
 	import Loader from '@/components/Loader.svelte';
 	import toast from "svelte-french-toast";
 
-	let data = {
+	let data = $state({
 		name: "",
 		image: "https://somoskudasai.com/wp-content/uploads/2022/10/portada_ia-4.jpg",
 		password: ""
-	}
+	})
 
-	let passwords = {
+	let passwords = $state({
 		password: "",
 		confirmPassword: ""
-	}
+	})
 
-	let loading = false;
+	let loading = $state(false);
 
 	async function HandleSubmit(e){
 		e.preventDefault();
@@ -68,10 +68,10 @@
 	}
 </script>
 
-<form class="new" on:submit={HandleSubmit} >
+<form class="new" onsubmit={HandleSubmit} >
     <h2>Bienvenido a HummingKey</h2>
     <p>Crea tu usuario y credenciales</p>
-    <picture on:click={uploadImage} >
+    <picture onclick={uploadImage} >
         <img src={data.image} alt="profile" loading="lazy" >
     </picture>
     <div class="Inputs" >

@@ -16,7 +16,8 @@
     import Discord from '@/components/icons/account/discord.svelte';
     import Steam from '@/components/icons/account/steam.svelte';
 
-    export let icon;
+    /** @type {{icon: any}} */
+    let { icon } = $props();
 </script>
 
 {#if icon === 1}

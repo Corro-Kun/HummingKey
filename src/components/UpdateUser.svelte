@@ -5,16 +5,16 @@
     import toast from "svelte-french-toast";
     import {send, receive} from '@/lib/transition.js'
 
-    let name = "";
-    let password = "";
-    let newPassword = {
+    let name = $state("");
+    let password = $state("");
+    let newPassword = $state({
         password: "",
         confirmPassword: ""
-    } 
+    }) 
 
-    let loading = 0;
+    let loading = $state(0);
 
-    let check = false;
+    let check = $state(false);
 
     onMount(async ()=>{
         const { invoke } = await import('@tauri-apps/api');
@@ -98,7 +98,7 @@
         >
             <h2>Escribe tu contraseña</h2>
             <input bind:value={password} type="password" 
-                on:keypress={(e)=> {
+                onkeypress={(e)=> {
                     if(e.code === "Enter"){
                         save();
                     }
@@ -107,16 +107,16 @@
                 {#if loading === 2}
                     <button disabled >Cargando...</button>
                 {:else}
-                    <button on:click={save} >Confirmar</button>
+                    <button onclick={save} >Confirmar</button>
                 {/if}
             </div>
         </div>
         {/if}
     </div>
-    <form class="new" on:submit={HandleSubmit} >
+    <form class="new" onsubmit={HandleSubmit} >
         <h2>Tu usuario</h2>
         <p>Actualiza tu usuario</p>
-        <picture on:click={uploadImage} >
+        <picture onclick={uploadImage} >
             <img src={$profileImg} alt="profile" loading="lazy" >
         </picture>
         <div class="Inputs" >
@@ -124,7 +124,7 @@
             <label for="user">Usuario</label>
         </div>
         <div class="CheckBox" >
-            <input on:change={()=> check = !check} type="checkbox">
+            <input onchange={()=> check = !check} type="checkbox">
             <label for="">¿Actualizar Contraseña?</label>
         </div>
         {#if check}

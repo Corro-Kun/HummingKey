@@ -12,17 +12,17 @@
     import {flip} from 'svelte/animate';
     import {navigate} from 'astro:transitions/client';
 
-    let data = [];
+    let data = $state([]);
 
-    let index = null;
+    let index = $state(null);
 
-    let confirm = false;
+    let confirm = $state(false);
 
-    let option = 0;
+    let option = $state(0);
 
-    let pw = "";
+    let pw = $state("");
 
-    let loading = [false, false];
+    let loading = $state([false, false]);
 
     onMount(async ()=>{
         const { invoke } = await import('@tauri-apps/api');
@@ -97,7 +97,7 @@
         </div>
         <div class="list-div" >
             {#each data as item, i (item.id)}
-                <div on:click={()=>{
+                <div onclick={()=>{
                     if(index === i){
                         index = null;
                     }else{
@@ -132,7 +132,7 @@
                     </div>
                     <div>
                         {#if !loading[0]}
-                        <button on:click={()=>{
+                        <button onclick={()=>{
                             confirm = true;
                             option = 1;
                         }} >
@@ -143,7 +143,7 @@
                             <Loading />
                         </button>
                         {/if}
-                        <button on:click={()=>{
+                        <button onclick={()=>{
                             confirm = true;
                             option = 2;
                         }} >
@@ -158,7 +158,7 @@
                     </div>
                     <div>
                         {#if !loading[1]}
-                        <button on:click={()=> {
+                        <button onclick={()=> {
                             confirm = true;
                             option = 3;
                         }} >
@@ -169,7 +169,7 @@
                             <Loading />
                         </button>
                         {/if}
-                        <button on:click={()=> {
+                        <button onclick={()=> {
                             confirm = true;
                             option = 4;
                         }} >
@@ -182,7 +182,7 @@
                     transition:fade={{duration: 200}}
                 >
                     <h3>Escribe tu contraseña</h3>
-                    <input bind:value={pw} on:keypress={(e)=> {
+                    <input bind:value={pw} onkeypress={(e)=> {
                         if(e.code === "Enter"){
                             descrypt();
                         }
@@ -192,8 +192,8 @@
            </div>
         </div>
         <div class="right" >
-            <button on:click={()=> navigate("/password/edit?id="+data[index].id)} ><Pencil /></button>
-            <button on:click={()=> {
+            <button onclick={()=> navigate("/password/edit?id="+data[index].id)} ><Pencil /></button>
+            <button onclick={()=> {
                 confirm = true
                 option = 6;
                 }}  ><Trash /></button> 
