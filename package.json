@@ -12,9 +12,9 @@
   },
   "dependencies": {
     "@astrojs/check": "0.9.4",
-    "@astrojs/svelte": "6.0.2",
+    "@astrojs/svelte": "7.0.3",
     "@tauri-apps/api": "1.6.0",
-    "astro": "4.16.16",
+    "astro": "5.1.2",
     "svelte": "5.2.11",
     "svelte-french-toast": "1.2.0",
     "typescript": "5.7.2"
