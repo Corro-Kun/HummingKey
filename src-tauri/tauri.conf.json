@@ -9,6 +9,7 @@
   "bundle": {
     "active": true,
     "category": "DeveloperTool",
+    "createUpdaterArtifacts": true,
     "copyright": "",
     "targets": "all",
     "externalBin": [],
@@ -44,7 +45,15 @@
   "mainBinaryName": "HummingKey",
   "version": "1.0.0",
   "identifier": "com.Corro-Dev.HummingKey",
-  "plugins": {},
+  "plugins": {
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDEwODI2REY4NEMyMkEzNUYKUldSZm95Sk0rRzJDRUI4L2NYSkNuMVVOcllXNDFHcmJUT0tQNHN6ckc2ODVGQ3VJRHRyQ0tOdlcK",
+      "endpoints": [
+        "https://releases.myapp.com/{{target}}/{{arch}}/{{current_version}}",
+        "https://github.com/user/repo/releases/latest/download/latest.json"
+      ]
+    }
+  },
   "app": {
     "withGlobalTauri": true,
     "windows": [
