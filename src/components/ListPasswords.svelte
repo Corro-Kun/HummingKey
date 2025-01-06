@@ -25,14 +25,14 @@
     let loading = $state([false, false]);
 
     onMount(async ()=>{
-        const { invoke } = await import('@tauri-apps/api');
+        const { invoke } = await import('@tauri-apps/api/core');
         data = await invoke("get_passwords");
     });
     
     async function descrypt(){
         confirm = false;
 
-        const { invoke } = await import('@tauri-apps/api');
+        const { invoke } = await import('@tauri-apps/api/core');
 
         let result = await invoke("login", {password: pw});
 

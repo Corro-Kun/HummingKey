@@ -17,13 +17,13 @@
     let check = $state(false);
 
     onMount(async ()=>{
-        const { invoke } = await import('@tauri-apps/api');
+        const { invoke } = await import('@tauri-apps/api/core');
         name = await invoke("get_name_user");
     });
 
     async function uploadImage(){
-		const {convertFileSrc} = await import('@tauri-apps/api/tauri');
-		const { open } = await import('@tauri-apps/api/dialog');
+		const {convertFileSrc} = await import('@tauri-apps/api/core');
+		const { open } = await import('@tauri-apps/plugin-dialog');
 
 		const filePath = await open({
     		multiple: false,
@@ -53,7 +53,7 @@
     async function save(){
         loading = 2;
 
-        const { invoke } = await import('@tauri-apps/api');
+        const { invoke } = await import('@tauri-apps/api/core');
         
         let result = await invoke("login", {password: password});
 
@@ -116,9 +116,11 @@
     <form class="new" onsubmit={HandleSubmit} >
         <h2>Tu usuario</h2>
         <p>Actualiza tu usuario</p>
-        <picture onclick={uploadImage} >
-            <img src={$profileImg} alt="profile" loading="lazy" >
-        </picture>
+        {#if $profileImg}
+            <picture onclick={uploadImage} >
+                <img src={$profileImg} alt="profile" loading="lazy">
+            </picture>
+        {/if}
         <div class="Inputs" >
             <input bind:value={name} id="user" type="text" autoComplete="off" required >
             <label for="user">Usuario</label>
@@ -130,13 +132,13 @@
         {#if check}
         <div class="Inputs"
         >
-            <input bind:value={newPassword.password} id="pass" type="password" autoComplete="off" required />
-            <label for="pass">Nueva Contraseña</label>
+            <input bind:value={newPassword.password} id="pass1" type="password" autoComplete="off" required />
+            <label for="pass1">Nueva Contraseña</label>
         </div>
         <div class="Inputs"
         >
-            <input bind:value={newPassword.confirmPassword} id="pass" type="password" autoComplete="off" required />
-            <label for="pass">Confirmar Contraseña</label>
+            <input bind:value={newPassword.confirmPassword} id="pass2" type="password" autoComplete="off" required />
+            <label for="pass2">Confirmar Contraseña</label>
         </div>
         {/if}
         <div class="Button" >

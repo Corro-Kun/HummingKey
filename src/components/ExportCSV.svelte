@@ -19,8 +19,8 @@
     })
 
     async function ImportCSV() {
-        const { open } = await import('@tauri-apps/api/dialog');
-        const { readTextFile} = await import('@tauri-apps/api/fs');
+        const { open } = await import('@tauri-apps/plugin-dialog');
+        const { readTextFile} = await import('@tauri-apps/plugin-fs');
 
 		const filePath = await open({
     		multiple: false,
@@ -54,7 +54,7 @@
     async function ExportCSV(){
         loading = 1;
 
-        const { invoke } = await import('@tauri-apps/api');
+        const { invoke } = await import('@tauri-apps/api/core');
 
         let result = await invoke("login", {password: passwords.password});
 
@@ -91,7 +91,7 @@
     }
 
     async function SavePasswords(){
-        const { invoke } = await import('@tauri-apps/api');
+        const { invoke } = await import('@tauri-apps/api/core');
 
         loading = 1;
 

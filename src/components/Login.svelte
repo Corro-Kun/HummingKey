@@ -13,7 +13,7 @@
 	let loading = $state(false);
 
 	onMount(async ()=>{
-		const { invoke } = await import('@tauri-apps/api');
+		const { invoke } = await import('@tauri-apps/api/core');
 		user = await invoke("get_name_user");
 		img = await invoke("get_image_user");
 	});
@@ -21,7 +21,7 @@
     async function HandleSubmit(e) {
         e.preventDefault();
 		loading = true;
-		const { invoke } = await import('@tauri-apps/api');
+		const { invoke } = await import('@tauri-apps/api/core');
 
 		let result = await invoke("login", {password: password});
 

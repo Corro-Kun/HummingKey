@@ -1,16 +1,15 @@
-use rusqlite::Connection;
 use crate::db::create_db;
+use rusqlite::Connection;
 
-pub fn check_db(conn: &mut Connection){
+pub fn check_db(conn: &mut Connection) {
     let mut value = String::new();
 
-    let result = conn.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name=?")
-        .and_then(|mut stmt|{
-            stmt.query_row(&["user"], |row| Ok(value = row.get(0)?))
-        })
+    let result = conn
+        .prepare("SELECT name FROM sqlite_master WHERE type='table' AND name=?")
+        .and_then(|mut stmt| stmt.query_row(&["user"], |row| Ok(value = row.get(0)?)))
         .is_ok();
 
-    if !result{
+    if !result {
         create_db();
     }
 }

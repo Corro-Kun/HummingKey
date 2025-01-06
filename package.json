@@ -13,13 +13,15 @@
   "dependencies": {
     "@astrojs/check": "0.9.4",
     "@astrojs/svelte": "7.0.3",
-    "@tauri-apps/api": "1.6.0",
+    "@tauri-apps/api": "2.0.0",
+    "@tauri-apps/plugin-dialog": "^2.2.0",
+    "@tauri-apps/plugin-fs": "~2",
     "astro": "5.1.2",
     "svelte": "5.2.11",
     "svelte-french-toast": "1.2.0",
     "typescript": "5.7.2"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "1.6.1"
+    "@tauri-apps/cli": "^2.2.2"
   }
 }

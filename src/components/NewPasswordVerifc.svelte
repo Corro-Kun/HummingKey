@@ -14,7 +14,7 @@
     async function save() {
         loading = 1;
 
-        const { invoke } = await import('@tauri-apps/api');
+        const { invoke } = await import('@tauri-apps/api/core');
         
         let result = await invoke("login", {password: password});
 

@@ -3,7 +3,7 @@
     import {navigate} from 'astro:transitions/client';
 
     onMount(async () => {
-        const { invoke } = await import('@tauri-apps/api');
+        const { invoke } = await import('@tauri-apps/api/core');
         getResult(invoke);
     });
 

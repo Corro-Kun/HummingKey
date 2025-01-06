@@ -2,7 +2,7 @@ use rusqlite::Connection;
 
 pub fn connect() -> Connection {
     let conn = Connection::open("passwords.db").unwrap();
-    conn 
+    conn
 }
 
 pub fn create_db() {
@@ -15,7 +15,8 @@ pub fn create_db() {
             password TEXT NOT NULL
         )",
         [],
-    ).unwrap();
+    )
+    .unwrap();
     conn.execute(
         "CREATE TABLE IF NOT EXISTS password (
             id INTEGER PRIMARY KEY,
@@ -27,5 +28,6 @@ pub fn create_db() {
             password_length INTEGER NOT NULL
         )",
         [],
-    ).unwrap();
+    )
+    .unwrap();
 }

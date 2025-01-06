@@ -41,7 +41,7 @@
 			return;
 		}
 
-		const { invoke } = await import('@tauri-apps/api');
+		const { invoke } = await import('@tauri-apps/api/core');
 
 		await invoke("create_user", {user: data});
 
@@ -52,8 +52,8 @@
 		navigate("/mainLogin");
 	}
 	async function uploadImage(){
-		const {convertFileSrc} = await import('@tauri-apps/api/tauri');
-		const { open } = await import('@tauri-apps/api/dialog');
+		const {convertFileSrc} = await import('@tauri-apps/api/core');
+		const { open } = await import('@tauri-apps/plugin-dialog');
 
 		const filePath = await open({
     		multiple: false,
