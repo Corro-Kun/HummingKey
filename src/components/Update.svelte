@@ -1,9 +1,33 @@
+<script>
+    import { check } from '@tauri-apps/plugin-updater';
+    import { relaunch } from '@tauri-apps/plugin-process';
+    import {navigate} from 'astro:transitions/client';
+
+    async function handleUpdate() {
+        const update = await check();
+
+        await update.downloadAndInstall();
+        await relaunch();
+    }
+
+    async function handleSkip() {
+        const { invoke } = await import('@tauri-apps/api/core');
+
+        let result = await invoke("verify_db");
+        if (result){
+            navigate("/mainLogin");
+        } else {
+            navigate("/newUser");
+        }
+    }
+</script>
+
 <div class="main" >
     <h2>Nueva actualización disponible</h2>
     <p>¿Quieres proceder con la instalación de la nueva versión?</p>
     <div class="buttons" >
-        <button>Actualizar</button>
-        <button>Saltar</button>
+        <button on:click={handleUpdate} >Actualizar</button>
+        <button on:click={handleSkip} >Saltar</button>
     </div>
 </div>
 

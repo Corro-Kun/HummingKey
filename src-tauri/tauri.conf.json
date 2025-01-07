@@ -43,14 +43,13 @@
   },
   "productName": "HummingKey",
   "mainBinaryName": "HummingKey",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "identifier": "com.Corro-Dev.HummingKey",
   "plugins": {
     "updater": {
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDEwODI2REY4NEMyMkEzNUYKUldSZm95Sk0rRzJDRUI4L2NYSkNuMVVOcllXNDFHcmJUT0tQNHN6ckc2ODVGQ3VJRHRyQ0tOdlcK",
       "endpoints": [
-        "https://releases.myapp.com/{{target}}/{{arch}}/{{current_version}}",
-        "https://github.com/user/repo/releases/latest/download/latest.json"
+        "https://gist.githubusercontent.com/Corro-Kun/c2955732fb3da609f9aa306a23d27b4e/raw/"
       ]
     }
   },
